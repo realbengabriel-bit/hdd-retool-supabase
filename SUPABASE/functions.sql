@@ -22,6 +22,22 @@ exception
 end;
 $function$;
 
+drop function if exists public.fn_create_document_with_context(
+  text,
+  text,
+  text,
+  text,
+  text,
+  text,
+  text,
+  bigint,
+  text,
+  text,
+  text,
+  jsonb,
+  text
+);
+
 create or replace function public.fn_create_document_with_context(
   p_document_name text,
   p_document_type_code text default 'other',
@@ -114,9 +130,16 @@ begin
 
   insert into public.document_types (
     document_type_code,
+    document_type_label,
+    document_category,
+    is_sensitive,
+    is_expiry_required,
+    is_active,
+    sort_order,
+    description,
     label,
     category,
-    description,
+    requires_expiry,
     created_by,
     updated_by
   )
@@ -124,7 +147,14 @@ begin
     v_document_type_code,
     initcap(replace(v_document_type_code, '_', ' ')),
     'other',
+    false,
+    false,
+    true,
+    100,
     'Auto-created by fn_create_document_with_context.',
+    initcap(replace(v_document_type_code, '_', ' ')),
+    'other',
+    false,
     nullif(btrim(p_uploaded_by), ''),
     nullif(btrim(p_uploaded_by), '')
   where not exists (
@@ -135,14 +165,14 @@ begin
   returning document_type_id into v_document_type_id;
 
   if v_document_type_id is null then
-    select dt.document_type_id, dt.category
+    select dt.document_type_id, coalesce(dt.document_category, dt.category, 'other')
       into v_document_type_id, v_document_category
     from public.document_types dt
     where lower(dt.document_type_code) = lower(v_document_type_code)
     order by dt.is_active desc, dt.sort_order asc, dt.created_at asc
     limit 1;
   else
-    select dt.category
+    select coalesce(dt.document_category, dt.category, 'other')
       into v_document_category
     from public.document_types dt
     where dt.document_type_id = v_document_type_id;

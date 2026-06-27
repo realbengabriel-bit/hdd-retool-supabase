@@ -6,7 +6,11 @@ create extension if not exists pgcrypto;
 create table if not exists public.document_types (
   document_type_id uuid primary key default gen_random_uuid(),
   document_type_code text not null,
-  label text not null,
+  document_type_label text not null,
+  document_category text not null default 'other',
+  is_sensitive boolean not null default false,
+  is_expiry_required boolean not null default false,
+  label text,
   category text,
   description text,
   is_active boolean not null default true,
@@ -22,6 +26,10 @@ create table if not exists public.document_types (
 
 alter table public.document_types add column if not exists document_type_id uuid default gen_random_uuid();
 alter table public.document_types add column if not exists document_type_code text;
+alter table public.document_types add column if not exists document_type_label text;
+alter table public.document_types add column if not exists document_category text;
+alter table public.document_types add column if not exists is_sensitive boolean default false;
+alter table public.document_types add column if not exists is_expiry_required boolean default false;
 alter table public.document_types add column if not exists label text;
 alter table public.document_types add column if not exists category text;
 alter table public.document_types add column if not exists description text;
@@ -34,6 +42,14 @@ alter table public.document_types add column if not exists created_by text;
 alter table public.document_types add column if not exists created_at timestamptz not null default now();
 alter table public.document_types add column if not exists updated_by text;
 alter table public.document_types add column if not exists updated_at timestamptz not null default now();
+
+alter table public.document_types alter column document_type_label set default 'Other document';
+alter table public.document_types alter column document_category set default 'other';
+alter table public.document_types alter column document_type_id set default gen_random_uuid();
+alter table public.document_types alter column is_sensitive set default false;
+alter table public.document_types alter column is_expiry_required set default false;
+alter table public.document_types alter column is_active set default true;
+alter table public.document_types alter column sort_order set default 100;
 
 create table if not exists public.document_files (
   document_file_id uuid primary key default gen_random_uuid(),
@@ -432,34 +448,285 @@ create index if not exists idx_document_review_queue_suggested_workflow
 create index if not exists idx_document_review_queue_final_workflow
   on public.document_review_queue (final_workflow_case_id);
 
-insert into public.document_types (
-  document_type_code,
-  label,
-  category,
-  description,
-  requires_expiry,
-  sort_order
-)
-select seed.document_type_code, seed.label, seed.category, seed.description, seed.requires_expiry, seed.sort_order
-from (
-  values
-    ('passport', 'Passport', 'identity', 'Passport or travel document.', true, 10),
-    ('residence_permit', 'Residence permit', 'immigration', 'Residence permit card or decision.', true, 20),
-    ('employment_contract', 'Employment contract', 'employment', 'Employment contract and amendments.', false, 30),
-    ('oif_form', 'OIF form', 'immigration', 'OIF / immigration form.', false, 40),
-    ('eh_document', 'EH document', 'immigration', 'Employment office document.', false, 50),
-    ('taj_card', 'TAJ card', 'oep', 'Hungarian TAJ card or TAJ related proof.', false, 60),
-    ('tax_card', 'Tax card', 'nav', 'Hungarian tax card or tax number proof.', false, 70),
-    ('address_card', 'Address card', 'housing', 'Address card or accommodation proof.', false, 80),
-    ('medical_clearance', 'Medical clearance', 'medical', 'Medical fitness or clearance document.', true, 90),
-    ('housing_document', 'Housing document', 'housing', 'Housing, lease, or accommodation document.', false, 100),
-    ('nav_document', 'NAV document', 'nav', 'NAV registration or tax document.', false, 110),
-    ('bmh_document', 'BMH document', 'bmh', 'BMH workflow document.', false, 120),
-    ('oep_document', 'OEP document', 'oep', 'OEP workflow document.', false, 130),
-    ('other', 'Other document', 'other', 'Fallback document type.', false, 999)
-) as seed(document_type_code, label, category, description, requires_expiry, sort_order)
-where not exists (
-  select 1
-  from public.document_types dt
-  where lower(dt.document_type_code) = lower(seed.document_type_code)
-);
+do $$
+declare
+  r record;
+  v_has_label boolean;
+  v_has_category boolean;
+  v_has_name boolean;
+  v_has_document_type_name boolean;
+  v_has_document_group boolean;
+  v_has_requires_expiry boolean;
+  v_has_metadata boolean;
+  v_has_created_by boolean;
+  v_has_created_at boolean;
+  v_has_updated_by boolean;
+  v_has_updated_at boolean;
+  v_cols text[];
+  v_vals text[];
+  v_col_list text;
+  v_val_list text;
+begin
+  select exists (
+    select 1 from information_schema.columns
+    where table_schema = 'public' and table_name = 'document_types' and column_name = 'label'
+  ) into v_has_label;
+
+  select exists (
+    select 1 from information_schema.columns
+    where table_schema = 'public' and table_name = 'document_types' and column_name = 'category'
+  ) into v_has_category;
+
+  select exists (
+    select 1 from information_schema.columns
+    where table_schema = 'public' and table_name = 'document_types' and column_name = 'name'
+  ) into v_has_name;
+
+  select exists (
+    select 1 from information_schema.columns
+    where table_schema = 'public' and table_name = 'document_types' and column_name = 'document_type_name'
+  ) into v_has_document_type_name;
+
+  select exists (
+    select 1 from information_schema.columns
+    where table_schema = 'public' and table_name = 'document_types' and column_name = 'document_group'
+  ) into v_has_document_group;
+
+  select exists (
+    select 1 from information_schema.columns
+    where table_schema = 'public' and table_name = 'document_types' and column_name = 'requires_expiry'
+  ) into v_has_requires_expiry;
+
+  select exists (
+    select 1 from information_schema.columns
+    where table_schema = 'public' and table_name = 'document_types' and column_name = 'metadata'
+  ) into v_has_metadata;
+
+  select exists (
+    select 1 from information_schema.columns
+    where table_schema = 'public' and table_name = 'document_types' and column_name = 'created_by'
+  ) into v_has_created_by;
+
+  select exists (
+    select 1 from information_schema.columns
+    where table_schema = 'public' and table_name = 'document_types' and column_name = 'created_at'
+  ) into v_has_created_at;
+
+  select exists (
+    select 1 from information_schema.columns
+    where table_schema = 'public' and table_name = 'document_types' and column_name = 'updated_by'
+  ) into v_has_updated_by;
+
+  select exists (
+    select 1 from information_schema.columns
+    where table_schema = 'public' and table_name = 'document_types' and column_name = 'updated_at'
+  ) into v_has_updated_at;
+
+  update public.document_types
+     set document_type_code = coalesce(nullif(btrim(document_type_code), ''), 'other'),
+         document_type_label = coalesce(
+           nullif(btrim(document_type_label), ''),
+           nullif(btrim(label), ''),
+           initcap(replace(coalesce(nullif(btrim(document_type_code), ''), 'other'), '_', ' '))
+         ),
+         document_category = coalesce(nullif(btrim(document_category), ''), nullif(btrim(category), ''), 'other'),
+         is_sensitive = coalesce(is_sensitive, false),
+         is_expiry_required = coalesce(is_expiry_required, requires_expiry, false),
+         is_active = coalesce(is_active, true),
+         sort_order = coalesce(sort_order, 100),
+         description = coalesce(nullif(btrim(description), ''), nullif(btrim(document_type_label), ''), nullif(btrim(label), ''), 'Document type'),
+         label = coalesce(nullif(btrim(label), ''), nullif(btrim(document_type_label), ''), initcap(replace(coalesce(nullif(btrim(document_type_code), ''), 'other'), '_', ' '))),
+         category = coalesce(nullif(btrim(category), ''), nullif(btrim(document_category), ''), 'other'),
+         requires_expiry = coalesce(requires_expiry, is_expiry_required, false)
+   where document_type_code is null
+      or nullif(btrim(document_type_code), '') is null
+      or document_type_label is null
+      or nullif(btrim(document_type_label), '') is null
+      or document_category is null
+      or nullif(btrim(document_category), '') is null
+      or is_sensitive is null
+      or is_expiry_required is null
+      or is_active is null
+      or sort_order is null
+      or description is null
+      or nullif(btrim(description), '') is null
+      or label is null
+      or nullif(btrim(label), '') is null
+      or category is null
+      or nullif(btrim(category), '') is null
+      or requires_expiry is null;
+
+  if v_has_name then
+    execute 'update public.document_types set name = coalesce(nullif(btrim(name::text), ''''), document_type_label) where name is null or nullif(btrim(name::text), '''') is null';
+  end if;
+
+  if v_has_document_type_name then
+    execute 'update public.document_types set document_type_name = coalesce(nullif(btrim(document_type_name::text), ''''), document_type_label) where document_type_name is null or nullif(btrim(document_type_name::text), '''') is null';
+  end if;
+
+  if v_has_document_group then
+    execute 'update public.document_types set document_group = coalesce(nullif(btrim(document_group::text), ''''), document_category) where document_group is null or nullif(btrim(document_group::text), '''') is null';
+  end if;
+
+  for r in
+    select *
+    from (
+      values
+        ('passport', 'Passport', 'identity', false, true, true, 10, 'Passport or travel document.'),
+        ('residence_permit', 'Residence permit', 'immigration', true, true, true, 20, 'Residence permit card or decision.'),
+        ('employment_contract', 'Employment contract', 'employment', true, false, true, 30, 'Employment contract and amendments.'),
+        ('oif_form', 'OIF form', 'immigration', true, false, true, 40, 'OIF / immigration form.'),
+        ('eh_document', 'EH document', 'immigration', true, false, true, 50, 'Employment office document.'),
+        ('taj_card', 'TAJ card', 'oep', true, false, true, 60, 'Hungarian TAJ card or TAJ related proof.'),
+        ('tax_card', 'Tax card', 'nav', true, false, true, 70, 'Hungarian tax card or tax number proof.'),
+        ('address_card', 'Address card', 'housing', true, false, true, 80, 'Address card or accommodation proof.'),
+        ('medical_clearance', 'Medical clearance', 'medical', true, true, true, 90, 'Medical fitness or clearance document.'),
+        ('housing_document', 'Housing document', 'housing', true, false, true, 100, 'Housing, lease, or accommodation document.'),
+        ('nav_document', 'NAV document', 'nav', true, false, true, 110, 'NAV registration or tax document.'),
+        ('bmh_document', 'BMH document', 'bmh', true, false, true, 120, 'BMH workflow document.'),
+        ('oep_document', 'OEP document', 'oep', true, false, true, 130, 'OEP workflow document.'),
+        ('other', 'Other document', 'other', false, false, true, 999, 'Fallback document type.')
+    ) as seed(
+      document_type_code,
+      document_type_label,
+      document_category,
+      is_sensitive,
+      is_expiry_required,
+      is_active,
+      sort_order,
+      description
+    )
+  loop
+    if exists (
+      select 1
+      from public.document_types dt
+      where lower(dt.document_type_code) = lower(r.document_type_code)
+    ) then
+      update public.document_types
+         set document_type_label = r.document_type_label,
+             document_category = r.document_category,
+             is_sensitive = r.is_sensitive,
+             is_expiry_required = r.is_expiry_required,
+             is_active = r.is_active,
+             sort_order = r.sort_order,
+             description = r.description,
+             label = r.document_type_label,
+             category = r.document_category,
+             requires_expiry = r.is_expiry_required,
+             updated_at = case when v_has_updated_at then now() else updated_at end
+       where lower(document_type_code) = lower(r.document_type_code);
+
+      if v_has_name then
+        execute 'update public.document_types set name = $1 where lower(document_type_code) = lower($2)' using r.document_type_label, r.document_type_code;
+      end if;
+
+      if v_has_document_type_name then
+        execute 'update public.document_types set document_type_name = $1 where lower(document_type_code) = lower($2)' using r.document_type_label, r.document_type_code;
+      end if;
+
+      if v_has_document_group then
+        execute 'update public.document_types set document_group = $1 where lower(document_type_code) = lower($2)' using r.document_category, r.document_type_code;
+      end if;
+    else
+      v_cols := array[
+        'document_type_code',
+        'document_type_label',
+        'document_category',
+        'is_sensitive',
+        'is_expiry_required',
+        'is_active',
+        'sort_order',
+        'description'
+      ];
+      v_vals := array['$1', '$2', '$3', '$4', '$5', '$6', '$7', '$8'];
+
+      if v_has_label then
+        v_cols := array_append(v_cols, 'label');
+        v_vals := array_append(v_vals, '$2');
+      end if;
+
+      if v_has_category then
+        v_cols := array_append(v_cols, 'category');
+        v_vals := array_append(v_vals, '$3');
+      end if;
+
+      if v_has_name then
+        v_cols := array_append(v_cols, 'name');
+        v_vals := array_append(v_vals, '$2');
+      end if;
+
+      if v_has_document_type_name then
+        v_cols := array_append(v_cols, 'document_type_name');
+        v_vals := array_append(v_vals, '$2');
+      end if;
+
+      if v_has_document_group then
+        v_cols := array_append(v_cols, 'document_group');
+        v_vals := array_append(v_vals, '$3');
+      end if;
+
+      if v_has_requires_expiry then
+        v_cols := array_append(v_cols, 'requires_expiry');
+        v_vals := array_append(v_vals, '$5');
+      end if;
+
+      if v_has_metadata then
+        v_cols := array_append(v_cols, 'metadata');
+        v_vals := array_append(v_vals, '''{}''::jsonb');
+      end if;
+
+      if v_has_created_by then
+        v_cols := array_append(v_cols, 'created_by');
+        v_vals := array_append(v_vals, '''migration''');
+      end if;
+
+      if v_has_created_at then
+        v_cols := array_append(v_cols, 'created_at');
+        v_vals := array_append(v_vals, 'now()');
+      end if;
+
+      if v_has_updated_by then
+        v_cols := array_append(v_cols, 'updated_by');
+        v_vals := array_append(v_vals, '''migration''');
+      end if;
+
+      if v_has_updated_at then
+        v_cols := array_append(v_cols, 'updated_at');
+        v_vals := array_append(v_vals, 'now()');
+      end if;
+
+      select string_agg(quote_ident(col_name), ', ')
+        into v_col_list
+      from unnest(v_cols) as u(col_name);
+
+      v_val_list := array_to_string(v_vals, ', ');
+
+      execute format(
+        'insert into public.document_types (%s) values (%s)',
+        v_col_list,
+        v_val_list
+      )
+      using
+        r.document_type_code,
+        r.document_type_label,
+        r.document_category,
+        r.is_sensitive,
+        r.is_expiry_required,
+        r.is_active,
+        r.sort_order,
+        r.description;
+    end if;
+  end loop;
+
+  update public.document_types
+     set document_type_label = coalesce(nullif(btrim(document_type_label), ''), initcap(replace(document_type_code, '_', ' ')), 'Other document'),
+         document_category = coalesce(nullif(btrim(document_category), ''), 'other'),
+         is_sensitive = coalesce(is_sensitive, false),
+         is_expiry_required = coalesce(is_expiry_required, requires_expiry, false),
+         is_active = coalesce(is_active, true),
+         sort_order = coalesce(sort_order, 100),
+         description = coalesce(nullif(btrim(description), ''), document_type_label, 'Document type'),
+         label = coalesce(nullif(btrim(label), ''), document_type_label),
+         category = coalesce(nullif(btrim(category), ''), document_category),
+         requires_expiry = coalesce(requires_expiry, is_expiry_required, false);
+end $$;
