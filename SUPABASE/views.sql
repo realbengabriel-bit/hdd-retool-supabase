@@ -4,6 +4,7 @@
 drop view if exists public.v_document_review_queue cascade;
 drop view if exists public.v_document_intake_pipeline cascade;
 drop view if exists public.v_retool_workflow_documents_central cascade;
+drop view if exists public.v_retool_unlinked_document_files cascade;
 drop view if exists public.v_retool_document_files cascade;
 
 create view public.v_retool_document_files as
@@ -87,6 +88,93 @@ left join lateral (
     and l.archived_at is null
 ) link_stats on true
 where d.archived_at is null;
+
+create view public.v_retool_unlinked_document_files as
+with latest_open_review as (
+  select distinct on (rq.document_file_id)
+    rq.document_file_id,
+    rq.review_queue_id,
+    rq.review_status,
+    rq.review_reason,
+    rq.suggested_document_type,
+    rq.assigned_to,
+    rq.created_at as review_created_at,
+    rq.updated_at as review_updated_at
+  from public.document_review_queue rq
+  where rq.review_status in ('open', 'needs_review', 'needs_more_info')
+  order by rq.document_file_id, rq.created_at desc nulls last
+)
+select
+  d.id as document_file_id,
+  d.document_name,
+  coalesce(d.document_type_code, dt.document_type_code, 'other') as document_type_code,
+  coalesce(dt.document_type_label, dt.label, initcap(replace(coalesce(d.document_type_code, 'other'), '_', ' ')), 'Other document') as document_type_label,
+  coalesce(d.document_category, dt.document_category, dt.category, 'other') as document_category,
+  d.status,
+  case
+    when d.status = 'active' then 'Active'
+    when d.status = 'archived' then 'Archived'
+    when d.status = 'rejected' then 'Rejected'
+    when d.status = 'pending_review' then 'Pending review'
+    else coalesce(d.status, 'unknown')
+  end as status_label,
+  d.storage_provider,
+  d.storage_mode,
+  case
+    when d.storage_mode = 'supabase_storage' then 'Supabase Storage'
+    when d.storage_mode = 'external_url' then 'External URL'
+    when d.storage_mode = 'metadata_only' then 'Metadata only'
+    else coalesce(d.storage_mode, 'unknown')
+  end as storage_mode_label,
+  d.storage_bucket,
+  d.storage_path,
+  coalesce(d.storage_ref, case when d.storage_bucket is not null and d.storage_path is not null then d.storage_bucket || '/' || d.storage_path end) as storage_ref,
+  d.file_url,
+  d.external_url,
+  d.original_filename,
+  d.mime_type,
+  d.file_size_bytes,
+  d.file_hash_sha256,
+  d.issue_date,
+  d.expiry_date,
+  case
+    when d.expiry_date is null then 'No expiry'
+    when d.expiry_date < current_date then 'Expired'
+    when d.expiry_date <= current_date + 30 then 'Expires soon'
+    else 'Valid'
+  end as expiry_status_label,
+  (d.expiry_date is not null and d.expiry_date < current_date) as is_expired,
+  d.source_module,
+  d.source_system,
+  d.source_context,
+  d.notes,
+  d.uploaded_by,
+  d.uploaded_at,
+  d.created_by,
+  d.created_at,
+  d.updated_by,
+  d.updated_at,
+  r.review_queue_id,
+  coalesce(r.review_status, 'not_queued') as review_status,
+  r.review_reason,
+  r.suggested_document_type,
+  r.assigned_to as review_assigned_to,
+  r.review_created_at,
+  r.review_updated_at
+from public.document_files d
+left join public.document_types dt
+  on dt.document_type_id = d.document_type_id
+  or lower(dt.document_type_code) = lower(d.document_type_code)
+left join latest_open_review r
+  on r.document_file_id = d.id
+where d.archived_at is null
+  and not exists (
+    select 1
+    from public.document_links l
+    where l.document_file_id = d.id
+      and l.archived_at is null
+      and coalesce(l.status, 'active') = 'active'
+  );
 
 do $$
 begin
