@@ -52,6 +52,7 @@ alter table public.document_types alter column is_active set default true;
 alter table public.document_types alter column sort_order set default 100;
 
 create table if not exists public.document_files (
+  id uuid not null default gen_random_uuid(),
   document_file_id uuid primary key default gen_random_uuid(),
   document_name text not null,
   document_type_id uuid,
@@ -88,6 +89,7 @@ create table if not exists public.document_files (
   metadata jsonb not null default '{}'::jsonb
 );
 
+alter table public.document_files add column if not exists id uuid default gen_random_uuid();
 alter table public.document_files add column if not exists document_file_id uuid default gen_random_uuid();
 alter table public.document_files add column if not exists document_name text;
 alter table public.document_files add column if not exists document_type_id uuid;
@@ -122,6 +124,16 @@ alter table public.document_files add column if not exists updated_by text;
 alter table public.document_files add column if not exists updated_at timestamptz not null default now();
 alter table public.document_files add column if not exists archived_at timestamptz;
 alter table public.document_files add column if not exists metadata jsonb not null default '{}'::jsonb;
+
+update public.document_files
+   set id = coalesce(id, document_file_id, gen_random_uuid())
+ where id is null;
+
+alter table public.document_files alter column id set default gen_random_uuid();
+alter table public.document_files alter column id set not null;
+
+create unique index if not exists idx_document_files_id_unique
+  on public.document_files (id);
 
 create table if not exists public.document_links (
   document_link_id uuid primary key default gen_random_uuid(),
@@ -324,7 +336,7 @@ begin
       alter table public.document_links
         add constraint document_links_document_file_id_fkey
         foreign key (document_file_id)
-        references public.document_files(document_file_id)
+        references public.document_files(id)
         on delete cascade;
     end if;
   exception when others then
@@ -340,7 +352,7 @@ begin
       alter table public.document_intake_jobs
         add constraint document_intake_jobs_document_file_id_fkey
         foreign key (document_file_id)
-        references public.document_files(document_file_id)
+        references public.document_files(id)
         on delete set null;
     end if;
   exception when others then
@@ -356,7 +368,7 @@ begin
       alter table public.document_review_queue
         add constraint document_review_queue_document_file_id_fkey
         foreign key (document_file_id)
-        references public.document_files(document_file_id)
+        references public.document_files(id)
         on delete set null;
     end if;
   exception when others then

@@ -52,6 +52,7 @@ alter table public.document_types alter column is_active set default true;
 alter table public.document_types alter column sort_order set default 100;
 
 create table if not exists public.document_files (
+  id uuid not null default gen_random_uuid(),
   document_file_id uuid primary key default gen_random_uuid(),
   document_name text not null,
   document_type_id uuid,
@@ -88,6 +89,7 @@ create table if not exists public.document_files (
   metadata jsonb not null default '{}'::jsonb
 );
 
+alter table public.document_files add column if not exists id uuid default gen_random_uuid();
 alter table public.document_files add column if not exists document_file_id uuid default gen_random_uuid();
 alter table public.document_files add column if not exists document_name text;
 alter table public.document_files add column if not exists document_type_id uuid;
@@ -122,6 +124,16 @@ alter table public.document_files add column if not exists updated_by text;
 alter table public.document_files add column if not exists updated_at timestamptz not null default now();
 alter table public.document_files add column if not exists archived_at timestamptz;
 alter table public.document_files add column if not exists metadata jsonb not null default '{}'::jsonb;
+
+update public.document_files
+   set id = coalesce(id, document_file_id, gen_random_uuid())
+ where id is null;
+
+alter table public.document_files alter column id set default gen_random_uuid();
+alter table public.document_files alter column id set not null;
+
+create unique index if not exists idx_document_files_id_unique
+  on public.document_files (id);
 
 create table if not exists public.document_links (
   document_link_id uuid primary key default gen_random_uuid(),
@@ -324,7 +336,7 @@ begin
       alter table public.document_links
         add constraint document_links_document_file_id_fkey
         foreign key (document_file_id)
-        references public.document_files(document_file_id)
+        references public.document_files(id)
         on delete cascade;
     end if;
   exception when others then
@@ -340,7 +352,7 @@ begin
       alter table public.document_intake_jobs
         add constraint document_intake_jobs_document_file_id_fkey
         foreign key (document_file_id)
-        references public.document_files(document_file_id)
+        references public.document_files(id)
         on delete set null;
     end if;
   exception when others then
@@ -356,7 +368,7 @@ begin
       alter table public.document_review_queue
         add constraint document_review_queue_document_file_id_fkey
         foreign key (document_file_id)
-        references public.document_files(document_file_id)
+        references public.document_files(id)
         on delete set null;
     end if;
   exception when others then
@@ -1118,7 +1130,7 @@ begin
     or v_task_id is not null
     or v_document_requirement_id is not null;
 
-  select d.document_file_id
+  select d.id
     into v_document_file_id
   from public.document_files d
   where d.archived_at is null
@@ -1128,11 +1140,15 @@ begin
       or (v_file_url is not null and d.file_url = v_file_url)
       or (v_external_url is not null and d.external_url = v_external_url)
     )
-  order by d.created_at asc nulls last, d.document_file_id
+  order by d.created_at asc nulls last, d.id
   limit 1;
 
   if v_document_file_id is null then
+    v_document_file_id := gen_random_uuid();
+
     insert into public.document_files (
+      id,
+      document_file_id,
       document_name,
       document_type_id,
       document_type_code,
@@ -1165,6 +1181,8 @@ begin
       metadata
     )
     values (
+      v_document_file_id,
+      v_document_file_id,
       v_document_name,
       v_document_type_id,
       v_document_type_code,
@@ -1196,7 +1214,7 @@ begin
       v_uploaded_by,
       jsonb_build_object('context', v_context)
     )
-    returning document_file_id into v_document_file_id;
+    returning id into v_document_file_id;
 
     v_created_document_file := true;
   else
@@ -1227,7 +1245,7 @@ begin
            notes = coalesce(nullif(public.document_files.notes, ''), v_notes),
            updated_by = v_uploaded_by,
            updated_at = now()
-     where public.document_files.document_file_id = v_document_file_id;
+     where public.document_files.id = v_document_file_id;
   end if;
 
   if v_has_context then
@@ -1364,7 +1382,7 @@ drop view if exists public.v_retool_document_files cascade;
 
 create view public.v_retool_document_files as
 select
-  d.document_file_id,
+  d.id as document_file_id,
   d.document_name,
   d.document_type_id,
   d.document_type_code,
@@ -1439,7 +1457,7 @@ left join lateral (
     count(*)::integer as link_count,
     array_remove(array_agg(distinct l.entity_type), null) as linked_entity_types
   from public.document_links l
-  where l.document_file_id = d.document_file_id
+  where l.document_file_id = d.id
     and l.archived_at is null
 ) link_stats on true
 where d.archived_at is null;
@@ -1450,8 +1468,8 @@ begin
     execute $view$
       create view public.v_retool_workflow_documents_central as
       select
-        d.document_file_id as document_id,
-        d.document_file_id,
+        d.id as document_id,
+        d.id as document_file_id,
         l.document_link_id,
         l.document_requirement_id,
         l.workflow_case_id,
@@ -1536,7 +1554,7 @@ begin
         ) as full_name
       from public.document_links l
       join public.document_files d
-        on d.document_file_id = l.document_file_id
+        on d.id = l.document_file_id
       left join public.document_types dt
         on dt.document_type_id = d.document_type_id
         or lower(dt.document_type_code) = lower(d.document_type_code)
@@ -1550,8 +1568,8 @@ begin
     execute $view$
       create view public.v_retool_workflow_documents_central as
       select
-        d.document_file_id as document_id,
-        d.document_file_id,
+        d.id as document_id,
+        d.id as document_file_id,
         l.document_link_id,
         l.document_requirement_id,
         l.workflow_case_id,
@@ -1628,7 +1646,7 @@ begin
         null::text as full_name
       from public.document_links l
       join public.document_files d
-        on d.document_file_id = l.document_file_id
+        on d.id = l.document_file_id
       left join public.document_types dt
         on dt.document_type_id = d.document_type_id
         or lower(dt.document_type_code) = lower(d.document_type_code)
@@ -1681,7 +1699,7 @@ select
   ij.metadata
 from public.document_intake_jobs ij
 left join public.document_files d
-  on d.document_file_id = ij.document_file_id
+  on d.id = ij.document_file_id
 left join public.document_types sdt
   on lower(sdt.document_type_code) = lower(ij.suggested_document_type_code)
 left join lateral (
@@ -1743,7 +1761,7 @@ select
   rq.metadata
 from public.document_review_queue rq
 left join public.document_files d
-  on d.document_file_id = rq.document_file_id
+  on d.id = rq.document_file_id
 left join public.document_types sdt
   on lower(sdt.document_type_code) = lower(rq.suggested_document_type)
 left join public.document_types fdt

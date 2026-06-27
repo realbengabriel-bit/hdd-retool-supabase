@@ -8,7 +8,7 @@ drop view if exists public.v_retool_document_files cascade;
 
 create view public.v_retool_document_files as
 select
-  d.document_file_id,
+  d.id as document_file_id,
   d.document_name,
   d.document_type_id,
   d.document_type_code,
@@ -83,7 +83,7 @@ left join lateral (
     count(*)::integer as link_count,
     array_remove(array_agg(distinct l.entity_type), null) as linked_entity_types
   from public.document_links l
-  where l.document_file_id = d.document_file_id
+  where l.document_file_id = d.id
     and l.archived_at is null
 ) link_stats on true
 where d.archived_at is null;
@@ -94,8 +94,8 @@ begin
     execute $view$
       create view public.v_retool_workflow_documents_central as
       select
-        d.document_file_id as document_id,
-        d.document_file_id,
+        d.id as document_id,
+        d.id as document_file_id,
         l.document_link_id,
         l.document_requirement_id,
         l.workflow_case_id,
@@ -180,7 +180,7 @@ begin
         ) as full_name
       from public.document_links l
       join public.document_files d
-        on d.document_file_id = l.document_file_id
+        on d.id = l.document_file_id
       left join public.document_types dt
         on dt.document_type_id = d.document_type_id
         or lower(dt.document_type_code) = lower(d.document_type_code)
@@ -194,8 +194,8 @@ begin
     execute $view$
       create view public.v_retool_workflow_documents_central as
       select
-        d.document_file_id as document_id,
-        d.document_file_id,
+        d.id as document_id,
+        d.id as document_file_id,
         l.document_link_id,
         l.document_requirement_id,
         l.workflow_case_id,
@@ -272,7 +272,7 @@ begin
         null::text as full_name
       from public.document_links l
       join public.document_files d
-        on d.document_file_id = l.document_file_id
+        on d.id = l.document_file_id
       left join public.document_types dt
         on dt.document_type_id = d.document_type_id
         or lower(dt.document_type_code) = lower(d.document_type_code)
@@ -325,7 +325,7 @@ select
   ij.metadata
 from public.document_intake_jobs ij
 left join public.document_files d
-  on d.document_file_id = ij.document_file_id
+  on d.id = ij.document_file_id
 left join public.document_types sdt
   on lower(sdt.document_type_code) = lower(ij.suggested_document_type_code)
 left join lateral (
@@ -387,7 +387,7 @@ select
   rq.metadata
 from public.document_review_queue rq
 left join public.document_files d
-  on d.document_file_id = rq.document_file_id
+  on d.id = rq.document_file_id
 left join public.document_types sdt
   on lower(sdt.document_type_code) = lower(rq.suggested_document_type)
 left join public.document_types fdt

@@ -388,7 +388,7 @@ begin
     or v_task_id is not null
     or v_document_requirement_id is not null;
 
-  select d.document_file_id
+  select d.id
     into v_document_file_id
   from public.document_files d
   where d.archived_at is null
@@ -398,11 +398,15 @@ begin
       or (v_file_url is not null and d.file_url = v_file_url)
       or (v_external_url is not null and d.external_url = v_external_url)
     )
-  order by d.created_at asc nulls last, d.document_file_id
+  order by d.created_at asc nulls last, d.id
   limit 1;
 
   if v_document_file_id is null then
+    v_document_file_id := gen_random_uuid();
+
     insert into public.document_files (
+      id,
+      document_file_id,
       document_name,
       document_type_id,
       document_type_code,
@@ -435,6 +439,8 @@ begin
       metadata
     )
     values (
+      v_document_file_id,
+      v_document_file_id,
       v_document_name,
       v_document_type_id,
       v_document_type_code,
@@ -466,7 +472,7 @@ begin
       v_uploaded_by,
       jsonb_build_object('context', v_context)
     )
-    returning document_file_id into v_document_file_id;
+    returning id into v_document_file_id;
 
     v_created_document_file := true;
   else
@@ -497,7 +503,7 @@ begin
            notes = coalesce(nullif(public.document_files.notes, ''), v_notes),
            updated_by = v_uploaded_by,
            updated_at = now()
-     where public.document_files.document_file_id = v_document_file_id;
+     where public.document_files.id = v_document_file_id;
   end if;
 
   if v_has_context then
