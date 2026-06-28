@@ -478,68 +478,157 @@ begin
   end if;
 
   return query execute $sql$
+    with source_rows as (
+      select to_jsonb(m) as row_json
+      from public.v_retool_workflow_missing_requirements m
+    ),
+    normalized as (
+      select
+        row_json,
+        nullif(btrim(coalesce(
+          row_json->>'workflow_case_id',
+          row_json->>'workflow_case_uuid',
+          row_json->>'case_id',
+          row_json->>'workflow_id'
+        )), '') as workflow_case_id,
+        nullif(btrim(coalesce(
+          row_json->>'csoport',
+          row_json->>'group',
+          row_json->>'requirement_group',
+          row_json->>'stage',
+          row_json->>'workflow_stage'
+        )), '') as csoport,
+        nullif(btrim(coalesce(
+          row_json->>'hianyzo_tetel',
+          row_json->>'missing_item',
+          row_json->>'missing_requirement',
+          row_json->>'requirement_name',
+          row_json->>'title',
+          row_json->>'label'
+        )), '') as hianyzo_tetel,
+        nullif(btrim(coalesce(
+          row_json->>'suggested_document_type_code',
+          row_json->>'document_type_code',
+          row_json->>'required_document_type_code',
+          row_json->>'document_code'
+        )), '') as suggested_document_type_code,
+        nullif(btrim(coalesce(
+          row_json->>'potlas_tipus',
+          row_json->>'replacement_type',
+          row_json->>'remediation_type',
+          row_json->>'missing_type',
+          row_json->>'type'
+        )), '') as potlas_tipus,
+        nullif(btrim(coalesce(
+          row_json->>'sulyossag',
+          row_json->>'severity',
+          row_json->>'priority',
+          row_json->>'risk_level'
+        )), '') as sulyossag,
+        nullif(btrim(coalesce(
+          row_json->>'statusz',
+          row_json->>'status',
+          row_json->>'requirement_status',
+          row_json->>'state'
+        )), '') as statusz,
+        nullif(btrim(coalesce(
+          row_json->>'reszletek',
+          row_json->>'details',
+          row_json->>'description',
+          row_json->>'message',
+          row_json->>'reason'
+        )), '') as reszletek,
+        nullif(btrim(coalesce(
+          row_json->>'raw_requirement',
+          row_json->>'requirement',
+          row_json->>'requirement_code',
+          row_json->>'raw',
+          row_json->>'source_requirement'
+        )), '') as raw_requirement
+      from source_rows
+    ),
+    candidates as (
+      select
+        n.*,
+        lower(coalesce(n.sulyossag, n.statusz, '')) as severity_text,
+        lower(coalesce(n.statusz, '')) as status_text,
+        lower(concat_ws(' ', n.potlas_tipus, n.csoport, n.hianyzo_tetel, n.reszletek, n.raw_requirement)) as search_text
+      from normalized n
+    )
     select
       (
         'workflow_missing:' ||
-        coalesce(m.workflow_case_id::text, 'unknown') || ':' ||
+        coalesce(c.workflow_case_id, 'unknown') || ':' ||
         md5(
-          coalesce(m.csoport::text, '') || '|' ||
-          coalesce(m.hianyzo_tetel::text, '') || '|' ||
-          coalesce(m.suggested_document_type_code::text, '') || '|' ||
-          coalesce(m.raw_requirement::text, '')
+          coalesce(c.csoport, '') || '|' ||
+          coalesce(c.hianyzo_tetel, '') || '|' ||
+          coalesce(c.suggested_document_type_code, '') || '|' ||
+          coalesce(c.raw_requirement, '')
         )
       )::text as alert_key,
       case
-        when nullif(m.suggested_document_type_code::text, '') is not null
-          or lower(coalesce(m.potlas_tipus::text, '')) like '%dokument%'
+        when c.suggested_document_type_code is not null
+          or c.search_text like '%dokument%'
+          or c.search_text like '%document%'
         then 'missing_document'
         else 'workflow_blocker'
       end::text as category,
       case
-        when lower(coalesce(m.sulyossag::text, m.statusz::text, '')) in ('blocker', 'blocking', 'hard_missing', 'critical')
-          or lower(coalesce(m.statusz::text, '')) like '%block%'
+        when c.severity_text in ('blocker', 'blocking', 'hard_missing', 'critical')
+          or c.status_text like '%block%'
         then 'blocker'
-        when lower(coalesce(m.sulyossag::text, m.statusz::text, '')) in ('urgent', 'high')
+        when c.severity_text in ('urgent', 'high')
         then 'urgent'
-        when lower(coalesce(m.sulyossag::text, m.statusz::text, '')) in ('info', 'ok')
+        when c.severity_text in ('info', 'ok')
         then 'info'
         else 'warning'
       end::text as severity,
       'workflow_case'::text as entity_type,
-      m.workflow_case_id::text as entity_id,
-      coalesce(nullif(m.hianyzo_tetel::text, ''), 'Missing workflow requirement')::text as title,
+      c.workflow_case_id::text as entity_id,
+      coalesce(c.hianyzo_tetel, c.raw_requirement, 'Missing workflow requirement')::text as title,
       concat_ws(
         ' | ',
-        nullif(m.csoport::text, ''),
-        nullif(m.statusz::text, ''),
-        nullif(m.reszletek::text, '')
+        c.csoport,
+        c.statusz,
+        c.reszletek
       )::text as message,
       (
-        to_jsonb(m) ||
+        c.row_json ||
         jsonb_build_object(
           'scanner', 'agent_v2_scan_workflow_blocker_alerts',
-          'source_view', 'public.v_retool_workflow_missing_requirements'
+          'source_view', 'public.v_retool_workflow_missing_requirements',
+          'normalized', jsonb_build_object(
+            'workflow_case_id', c.workflow_case_id,
+            'csoport', c.csoport,
+            'hianyzo_tetel', c.hianyzo_tetel,
+            'suggested_document_type_code', c.suggested_document_type_code,
+            'potlas_tipus', c.potlas_tipus,
+            'sulyossag', c.sulyossag,
+            'statusz', c.statusz,
+            'reszletek', c.reszletek,
+            'raw_requirement', c.raw_requirement
+          )
         )
       )::jsonb as payload,
       md5(
-        coalesce(m.workflow_case_id::text, '') || '|' ||
-        coalesce(m.csoport::text, '') || '|' ||
-        coalesce(m.hianyzo_tetel::text, '') || '|' ||
-        coalesce(m.suggested_document_type_code::text, '') || '|' ||
-        coalesce(m.raw_requirement::text, '')
+        coalesce(c.workflow_case_id, '') || '|' ||
+        coalesce(c.csoport, '') || '|' ||
+        coalesce(c.hianyzo_tetel, '') || '|' ||
+        coalesce(c.suggested_document_type_code, '') || '|' ||
+        coalesce(c.raw_requirement, '')
       )::text as dedupe_hash
-    from public.v_retool_workflow_missing_requirements m
-    where lower(coalesce(m.statusz::text, '')) not in ('resolved', 'closed', 'complete', 'completed', 'ok')
+    from candidates c
+    where c.status_text not in ('resolved', 'closed', 'complete', 'completed', 'ok')
     order by
       case
-        when lower(coalesce(m.sulyossag::text, m.statusz::text, '')) in ('blocker', 'blocking', 'hard_missing', 'critical') then 1
-        when lower(coalesce(m.sulyossag::text, m.statusz::text, '')) in ('urgent', 'high') then 2
-        when lower(coalesce(m.sulyossag::text, m.statusz::text, '')) in ('warning', 'soft_warning') then 3
+        when c.severity_text in ('blocker', 'blocking', 'hard_missing', 'critical') then 1
+        when c.severity_text in ('urgent', 'high') then 2
+        when c.severity_text in ('warning', 'soft_warning') then 3
         else 4
       end,
-      m.workflow_case_id::text nulls last,
-      m.csoport::text nulls last,
-      m.hianyzo_tetel::text nulls last
+      c.workflow_case_id nulls last,
+      c.csoport nulls last,
+      c.hianyzo_tetel nulls last
     limit $1
   $sql$ using v_limit;
 end;
