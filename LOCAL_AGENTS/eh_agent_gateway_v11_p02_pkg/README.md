@@ -125,6 +125,32 @@ A test_health.ps1 csak ezeket hívja:
 
 Nem hív mutáló vagy dry-run POST endpointot.
 
+
+## Supabase wrapper RPC
+
+A v11 P02-first gateway Supabase package RPC beállítása:
+
+    EH_AGENT_PACKAGE_RPC=get_oif_eh_agent_package_v11
+
+A wrapper source-control migrationje:
+
+    SUPABASE/migrations/20260630013000_add_eh_agent_gateway_v11_package_wrapper.sql
+
+A wrapper csak package-preview/dry-run célú. A public.get_oif_eh_agent_package_v11(...) feloldja a workflow_case_id értéket, majd az eredeti public.get_oif_eh_agent_package(uuid) függvényre delegál. A válaszban az execution mezők továbbra is tiltottak:
+
+    execution_allowed_now = false
+    live_fill_allowed = false
+    submit_allowed = false
+
+Manuális irodai host teszt eredmény:
+
+- /health PASS
+- /capabilities PASS
+- /agent/package/prepare PASS
+- /agent/run-full-dry PASS
+
+Execution a teszt alatt is disabled maradt. Nem történt EnterHungary/OIF submit, live browser fill, Robot Barát kapcsolat vagy notification küldés.
+
 ## Endpoint lista
 
 - GET /health
