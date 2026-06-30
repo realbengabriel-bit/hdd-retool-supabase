@@ -1,0 +1,1 @@
+Nincs kötelező Supabase SQL ehhez a csomaghoz. A meglévő get_oif_eh_agent_package RPC-t használja.

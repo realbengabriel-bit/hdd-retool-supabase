@@ -1,0 +1,1360 @@
+{
+  "Kerelem": [
+    {
+      "row_no": 2,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[1]/div[2]/div[2]/label[1]/input",
+      "kind": "Radio",
+      "col_name": "Igen"
+    },
+    {
+      "row_no": 3,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[1]/div[2]/div[4]/label[2]/input",
+      "kind": "Radio",
+      "col_name": "Nem"
+    },
+    {
+      "row_no": 4,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[1]/div[2]/div[5]/div[1]/div[2]/input",
+      "kind": "Input",
+      "col_name": "Beutazás hely"
+    },
+    {
+      "row_no": 5,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[1]/div[2]/div[5]/div[1]/div[4]/input",
+      "kind": "Input",
+      "col_name": "Beutazás ideje"
+    },
+    {
+      "row_no": 6,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[2]/div[2]/div[6]/input",
+      "kind": "Input",
+      "col_name": "Vezetéknév"
+    },
+    {
+      "row_no": 7,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[2]/div[2]/div[8]/input",
+      "kind": "Input",
+      "col_name": "Keresztnév"
+    },
+    {
+      "row_no": 8,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[2]/div[2]/div[10]/input",
+      "kind": "Input",
+      "col_name": "Születési Vezetéknév"
+    },
+    {
+      "row_no": 9,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[2]/div[2]/div[12]/input",
+      "kind": "Input",
+      "col_name": "Keresztnév"
+    },
+    {
+      "row_no": 10,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[2]/div[2]/div[14]/input",
+      "kind": "Input",
+      "col_name": "Anyja vezetéknév"
+    },
+    {
+      "row_no": 11,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[2]/div[2]/div[16]/input",
+      "kind": "Input",
+      "col_name": "Anyja keresztnév"
+    },
+    {
+      "row_no": 12,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[2]/div[2]/div[18]/select",
+      "kind": "Combobox",
+      "col_name": "Születési helye (Ország)"
+    },
+    {
+      "row_no": 13,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[2]/div[2]/div[20]/input",
+      "kind": "Input",
+      "col_name": "Születési helye (Város)"
+    },
+    {
+      "row_no": 14,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[2]/div[2]/div[22]/input",
+      "kind": "Input",
+      "col_name": "Születési idő"
+    },
+    {
+      "row_no": 15,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[2]/div[2]/div[24]/select",
+      "kind": "Combobox",
+      "col_name": "Neme (Nő/Férfi)"
+    },
+    {
+      "row_no": 16,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[2]/div[2]/div[26]/select",
+      "kind": "Combobox",
+      "col_name": "Állampolgárság"
+    },
+    {
+      "row_no": 17,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[2]/div[2]/div[30]/select",
+      "kind": "Combobox",
+      "col_name": "Családi állapota (Nőtlen/hajadon; Elvált; Házas; özvegy)"
+    },
+    {
+      "row_no": 18,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[2]/div[2]/div[32]/input",
+      "kind": "Input",
+      "col_name": "Szakképzettsége"
+    },
+    {
+      "row_no": 19,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[2]/div[2]/div[34]/select",
+      "kind": "Combobox",
+      "col_name": "Iskolai végzettség (Alapfokú; Felsőfokú; Középfokú; Nincs)"
+    },
+    {
+      "row_no": 20,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[2]/div[2]/div[36]/input",
+      "kind": "Input",
+      "col_name": "Magyarországra érkezést megelőző foglalkozása"
+    },
+    {
+      "row_no": 21,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[2]/div[2]/div[37]/div[2]/label[2]/input",
+      "kind": "Radio",
+      "col_name": "Határmenti ingázó"
+    },
+    {
+      "row_no": 22,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[3]/div[2]/div[2]/input",
+      "kind": "Input",
+      "col_name": "Útlevél száma"
+    },
+    {
+      "row_no": 23,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[3]/div[2]/div[4]/select",
+      "kind": "Combobox",
+      "col_name": "Útlevél típusa"
+    },
+    {
+      "row_no": 24,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[3]/div[2]/div[7]/input",
+      "kind": "Input",
+      "col_name": "Útlevél kiállításának helye"
+    },
+    {
+      "row_no": 25,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[3]/div[2]/div[9]/input",
+      "kind": "Input",
+      "col_name": "Útlevél kiállításának dátuma"
+    },
+    {
+      "row_no": 26,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[3]/div[2]/div[11]/input",
+      "kind": "Input",
+      "col_name": "Útlevél érvényes dátum"
+    },
+    {
+      "row_no": 27,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[4]/div/div[2]/section/div/div[2]/input",
+      "kind": "Input",
+      "col_name": "Sz.Irányítószám"
+    },
+    {
+      "row_no": 28,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[4]/div/div[2]/section/div/div[6]/input",
+      "kind": "Input",
+      "col_name": "Sz.Közterület neve"
+    },
+    {
+      "row_no": 29,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[4]/div/div[2]/section/div/div[8]/select",
+      "kind": "Combobox",
+      "col_name": "Sz.Közterület jellege"
+    },
+    {
+      "row_no": 30,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[4]/div/div[2]/section/div/div[10]/input",
+      "kind": "Input",
+      "col_name": "Sz.Házszám"
+    },
+    {
+      "row_no": 31,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[4]/div/div[2]/section/div/div[12]/input",
+      "kind": "Input",
+      "col_name": "Sz.Épület"
+    },
+    {
+      "row_no": 32,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[4]/div/div[2]/section/div/div[16]/select",
+      "kind": "Combobox",
+      "col_name": "Sz.Emelet (01; 02; 03…)"
+    },
+    {
+      "row_no": 33,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[4]/div/div[2]/section/div/div[18]/input",
+      "kind": "Input",
+      "col_name": "Sz.Ajtó"
+    },
+    {
+      "row_no": 34,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[4]/div/div[2]/section/div/div[20]/select",
+      "kind": "Combobox",
+      "col_name": "Szálláshelyen tartózkodás jogcíme"
+    },
+    {
+      "row_no": 35,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[4]/div/div[2]/section/div/div[21]/div/div[2]/input",
+      "kind": "Input",
+      "col_name": "Éspedig"
+    },
+    {
+      "row_no": 36,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[5]/div[2]/div[2]/select",
+      "kind": "Input",
+      "col_name": "Rendelkezik-e egészségbiztosítással?"
+    },
+    {
+      "row_no": 37,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[6]/div[2]/div[2]/select",
+      "kind": "Combobox",
+      "col_name": "Ország"
+    },
+    {
+      "row_no": 38,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[6]/div[2]/div[7]/label[1]/input",
+      "kind": "Radio",
+      "col_name": "Rendelkezik-e a szükséges útlevéllel?"
+    },
+    {
+      "row_no": 39,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[6]/div[2]/div[9]/label[1]/input",
+      "kind": "Radio",
+      "col_name": "Vízummal?"
+    },
+    {
+      "row_no": 40,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[6]/div[2]/div[11]/label[1]/input",
+      "kind": "Radio",
+      "col_name": "Menetjeggyel?"
+    },
+    {
+      "row_no": 41,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[6]/div[2]/div[13]/label[1]/input",
+      "kind": "Radio",
+      "col_name": "Anyagi fedezettel?"
+    },
+    {
+      "row_no": 42,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[8]/div/div/div[2]/div[2]/select",
+      "kind": "Combobox",
+      "col_name": "Ország"
+    },
+    {
+      "row_no": 43,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[8]/div/div/div[2]/div[4]/input",
+      "kind": "Input",
+      "col_name": "Város"
+    },
+    {
+      "row_no": 44,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[8]/div/div/div[2]/div[6]/input",
+      "kind": "Input",
+      "col_name": "Közterület neve"
+    },
+    {
+      "row_no": 45,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[8]/div/div/div[2]/div[8]/input",
+      "kind": "Input",
+      "col_name": "Közterület jellege (út, utca, köz, stb.)"
+    },
+    {
+      "row_no": 46,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[8]/div/div/div[2]/div[10]/input",
+      "kind": "Input",
+      "col_name": "Házszám"
+    },
+    {
+      "row_no": 47,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[8]/div/div/div[2]/div[12]/input",
+      "kind": "Input",
+      "col_name": "Épület"
+    },
+    {
+      "row_no": 48,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[8]/div/div/div[2]/div[16]/select",
+      "kind": "Combobox",
+      "col_name": "Emelet (01; 02; 03…)"
+    },
+    {
+      "row_no": 49,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[8]/div/div/div[2]/div[18]/input",
+      "kind": "Input",
+      "col_name": "Ajtó"
+    },
+    {
+      "row_no": 50,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[9]/div[1]/div/div[2]/label[2]/input",
+      "kind": "Radio",
+      "col_name": "Rendelkezik-e más schengen…"
+    },
+    {
+      "row_no": 51,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[10]/div[2]/div[2]/label[2]/input",
+      "kind": "Radio",
+      "col_name": ""
+    },
+    {
+      "row_no": 52,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[10]/div[2]/div[4]/label[2]/input",
+      "kind": "Radio",
+      "col_name": ""
+    },
+    {
+      "row_no": 53,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[10]/div[2]/div[7]/label[2]/input",
+      "kind": "Radio",
+      "col_name": ""
+    },
+    {
+      "row_no": 54,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[10]/div[2]/div[10]/label[2]/input",
+      "kind": "Radio",
+      "col_name": ""
+    },
+    {
+      "row_no": 55,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[10]/div[2]/div[13]/label[2]/input",
+      "kind": "Radio",
+      "col_name": ""
+    },
+    {
+      "row_no": 56,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[12]/div[2]/div[2]/input",
+      "kind": "Input",
+      "col_name": "Meddig kérelmezi tartózkodása engedélyezését?"
+    },
+    {
+      "row_no": 57,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[13]/div[2]/div[2]/input",
+      "kind": "Input",
+      "col_name": "Ügyintéző email"
+    },
+    {
+      "row_no": 58,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[13]/div[2]/div[4]/input",
+      "kind": "Input",
+      "col_name": "Ügyintéző telefonszám"
+    },
+    {
+      "row_no": 59,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[13]/div[2]/div[6]/label[2]/input",
+      "kind": "Radio",
+      "col_name": "A kérlemező postai uton"
+    },
+    {
+      "row_no": 60,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[14]/div[2]/div[1]/div/label/input",
+      "kind": "Radio",
+      "col_name": "adatok a valóságnak megfelelnek"
+    },
+    {
+      "row_no": 61,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[14]/div[2]/div[2]/div/label/input",
+      "kind": "Radio",
+      "col_name": "vállalom az Európai Unió tagállamai"
+    }
+  ],
+  "Kerelem2": [
+    {
+      "row_no": 2,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[1]/div[2]/div[1]/div[2]/select",
+      "kind": "Combobox",
+      "col_name": "Benyújtó"
+    },
+    {
+      "row_no": 3,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[3]/div[2]/div[1]/div[2]/div/section/div[2]/input",
+      "kind": "Input",
+      "col_name": "Rövid cégnév"
+    },
+    {
+      "row_no": 4,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[1]/div[2]/div[2]/div/div[2]/div[2]/div/div[2]/div[2]/input",
+      "kind": "Input",
+      "col_name": "Foglalkoztató irányítószám"
+    },
+    {
+      "row_no": 5,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[1]/div[2]/div[2]/div/div[2]/div[2]/div/div[2]/div[4]/input",
+      "kind": "Input",
+      "col_name": "Munkahely település"
+    },
+    {
+      "row_no": 6,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[1]/div[2]/div[2]/div/div[2]/div[2]/div/div[2]/div[8]/input",
+      "kind": "Input",
+      "col_name": "Foglalkoztató közterület neve"
+    },
+    {
+      "row_no": 7,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[1]/div[2]/div[2]/div/div[2]/div[2]/div/div[2]/div[10]/select",
+      "kind": "Combobox",
+      "col_name": "Foglalkoztató közterület jellege"
+    },
+    {
+      "row_no": 8,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[1]/div[2]/div[2]/div/div[2]/div[2]/div/div[2]/div[12]/input",
+      "kind": "Input",
+      "col_name": "Foglalkoztató házszám"
+    },
+    {
+      "row_no": 9,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[1]/div[2]/div[2]/div/div[2]/div[2]/div/div[2]/div[14]/input",
+      "kind": "Input",
+      "col_name": "Foglalkoztató Épület"
+    },
+    {
+      "row_no": 10,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[1]/div[2]/div[2]/div/div[2]/div[2]/div/div[2]/div[18]/select",
+      "kind": "Combobox",
+      "col_name": "Foglalkoztató Emelet"
+    },
+    {
+      "row_no": 11,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[1]/div[2]/div[2]/div/div[2]/div[2]/div/div[2]/div[20]/input",
+      "kind": "Input",
+      "col_name": "Foglalkoztató Ajtó"
+    },
+    {
+      "row_no": 12,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[1]/div[2]/div[2]/div/div[2]/div[3]/div/div[2]/div[2]/input",
+      "kind": "Input",
+      "col_name": "Foglalkoztató irányítószám"
+    },
+    {
+      "row_no": 13,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[1]/div[2]/div[2]/div/div[2]/div[3]/div/div[2]/div[4]/input",
+      "kind": "Input",
+      "col_name": "Munkahely település"
+    },
+    {
+      "row_no": 14,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[1]/div[2]/div[2]/div/div[2]/div[3]/div/div[2]/div[8]/input",
+      "kind": "Input",
+      "col_name": "Foglalkoztató közterület neve"
+    },
+    {
+      "row_no": 15,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[1]/div[2]/div[2]/div/div[2]/div[3]/div/div[2]/div[10]/select",
+      "kind": "Combobox",
+      "col_name": "Foglalkoztató közterület jellege"
+    },
+    {
+      "row_no": 16,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[1]/div[2]/div[2]/div/div[2]/div[3]/div/div[2]/div[12]/input",
+      "kind": "Input",
+      "col_name": "Foglalkoztató házszám"
+    },
+    {
+      "row_no": 17,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[1]/div[2]/div[2]/div/div[2]/div[3]/div/div[2]/div[14]/input",
+      "kind": "Input",
+      "col_name": "Foglalkoztató Épület"
+    },
+    {
+      "row_no": 18,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[1]/div[2]/div[2]/div/div[2]/div[3]/div/div[2]/div[18]/select",
+      "kind": "Combobox",
+      "col_name": "Foglalkoztató Emelet"
+    },
+    {
+      "row_no": 19,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[1]/div[2]/div[2]/div/div[2]/div[3]/div/div[2]/div[20]/input",
+      "kind": "Input",
+      "col_name": "Foglalkoztató Ajtó"
+    },
+    {
+      "row_no": 20,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[2]/div[2]/div[1]/div[4]/select",
+      "kind": "Combobox",
+      "col_name": "Pénznem"
+    },
+    {
+      "row_no": 21,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[2]/div[2]/div[1]/div[2]/input",
+      "kind": "Input",
+      "col_name": "Várható jövedelem"
+    },
+    {
+      "row_no": 22,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[3]/div[2]/div[1]/div[2]/div/section/div[22]/select",
+      "kind": "Combobox",
+      "col_name": "TEÁOR"
+    },
+    {
+      "row_no": 23,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[3]/div[2]/div[1]/div[2]/div/section/div[24]/input",
+      "kind": "Input",
+      "col_name": "KSH szám"
+    },
+    {
+      "row_no": 24,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[3]/div[2]/div[1]/div[2]/div/section/div[26]/input",
+      "kind": "Input",
+      "col_name": "Foglalkoztató Adószám"
+    },
+    {
+      "row_no": 25,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[3]/div[2]/div[1]/div[2]/div/section/div[6]/input",
+      "kind": "Input",
+      "col_name": "Munkahely település"
+    },
+    {
+      "row_no": 26,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[3]/div[2]/div[1]/div[2]/div/section/div[4]/input",
+      "kind": "Input",
+      "col_name": "Foglalkoztató irányítószám"
+    },
+    {
+      "row_no": 27,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[3]/div[2]/div[1]/div[2]/div/section/div[8]/input",
+      "kind": "Input",
+      "col_name": "Foglalkoztató közterület neve"
+    },
+    {
+      "row_no": 28,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[3]/div[2]/div[1]/div[2]/div/section/div[10]/select",
+      "kind": "Combobox",
+      "col_name": "Munkahely közterület jellege"
+    },
+    {
+      "row_no": 29,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[3]/div[2]/div[1]/div[2]/div/section/div[12]/input",
+      "kind": "Input",
+      "col_name": "Foglalkoztató házszám"
+    },
+    {
+      "row_no": 30,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[3]/div[2]/div[2]/div[2]/div[4]/select",
+      "kind": "Combobox",
+      "col_name": "Iskola típusa"
+    },
+    {
+      "row_no": 31,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[3]/div[2]/div[2]/div[2]/div[2]/input",
+      "kind": "Input",
+      "col_name": "Szakképzettsége"
+    },
+    {
+      "row_no": 32,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[3]/div[2]/div[3]/section/div/div[2]/div[2]/input",
+      "kind": "Input",
+      "col_name": "Munkahely irányítószám"
+    },
+    {
+      "row_no": 33,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[3]/div[2]/div[3]/section/div/div[2]/div[6]/input",
+      "kind": "Input",
+      "col_name": "Munkahely közterület neve"
+    },
+    {
+      "row_no": 34,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[3]/div[2]/div[3]/section/div/div[2]/div[8]/select",
+      "kind": "Combobox",
+      "col_name": "Munkahely közterület jellege"
+    },
+    {
+      "row_no": 35,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[3]/div[2]/div[3]/section/div/div[2]/div[10]/input",
+      "kind": "Input",
+      "col_name": "Munkahely házszám"
+    },
+    {
+      "row_no": 36,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[3]/div[2]/div[3]/section/div/div[2]/div[12]/input",
+      "kind": "Input",
+      "col_name": "Munkahely Épület"
+    },
+    {
+      "row_no": 37,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[3]/div[2]/div[3]/section/div/div[2]/div[16]/select",
+      "kind": "Combobox",
+      "col_name": "Munkahely Emelet"
+    },
+    {
+      "row_no": 38,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[3]/div[2]/div[3]/section/div/div[2]/div[18]/input",
+      "kind": "Input",
+      "col_name": "Munkahely Ajtó"
+    },
+    {
+      "row_no": 39,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[3]/div[2]/div[3]/section/div/div[7]/input",
+      "kind": "Input",
+      "col_name": "Előzetes megállapodás kelte"
+    },
+    {
+      "row_no": 40,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[3]/div[2]/div[3]/section/div/div[9]/select",
+      "kind": "Combobox",
+      "col_name": "FEOR"
+    },
+    {
+      "row_no": 41,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[3]/div[2]/div[4]/div[2]/div[3]/div[2]/select",
+      "kind": "Input",
+      "col_name": "Állampolgárság"
+    },
+    {
+      "row_no": 42,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[3]/div[2]/div[4]/div[2]/div[5]/label[2]/input",
+      "kind": "Radio",
+      "col_name": ""
+    },
+    {
+      "row_no": 43,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[3]/div[2]/div[4]/div[2]/div[7]/label[2]/input",
+      "kind": "Radio",
+      "col_name": ""
+    },
+    {
+      "row_no": 44,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[4]/div[2]/div[2]/div[2]/select",
+      "kind": "Combobox",
+      "col_name": "Ország"
+    },
+    {
+      "row_no": 45,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[4]/div[2]/div[5]/div[2]/select",
+      "kind": "Combobox",
+      "col_name": "Kiutasitas Celorszaga"
+    },
+    {
+      "row_no": 46,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[4]/div[2]/div[11]/div[2]/label[1]/input",
+      "kind": "Radio",
+      "col_name": ""
+    },
+    {
+      "row_no": 47,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[4]/div[2]/div[12]/div/div[2]/input",
+      "kind": "Input",
+      "col_name": "2023. évi XC. törvény 242"
+    },
+    {
+      "row_no": 48,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[4]/div[2]/div[13]/div[2]/label[1]/input",
+      "kind": "Radio",
+      "col_name": ""
+    },
+    {
+      "row_no": 49,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[4]/div[2]/div[14]/div/div[2]/input",
+      "kind": "Input",
+      "col_name": "445/2013. (XI. 28.) Korm. rendelet 15. § (1) bekezdés pontja"
+    }
+  ],
+  "VendegmKerelem": [
+    {
+      "row_no": 2,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[1]/div[2]/div[2]/label[1]/input",
+      "kind": "Radio",
+      "col_name": "Igen"
+    },
+    {
+      "row_no": 3,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[1]/div[2]/div[4]/label[2]/input",
+      "kind": "Radio",
+      "col_name": "Nem"
+    },
+    {
+      "row_no": 4,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[1]/div[2]/div[5]/div[1]/div[2]/input",
+      "kind": "Input",
+      "col_name": "Beutazás hely"
+    },
+    {
+      "row_no": 5,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[1]/div[2]/div[5]/div[1]/div[4]/input",
+      "kind": "Input",
+      "col_name": "Beutazás ideje"
+    },
+    {
+      "row_no": 6,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[2]/div[2]/div[6]/input",
+      "kind": "Input",
+      "col_name": "Vezetéknév"
+    },
+    {
+      "row_no": 7,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[2]/div[2]/div[8]/input",
+      "kind": "Input",
+      "col_name": "Keresztnév"
+    },
+    {
+      "row_no": 8,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[2]/div[2]/div[10]/input",
+      "kind": "Input",
+      "col_name": "Születési Vezetéknév"
+    },
+    {
+      "row_no": 9,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[2]/div[2]/div[12]/input",
+      "kind": "Input",
+      "col_name": "Keresztnév"
+    },
+    {
+      "row_no": 10,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[2]/div[2]/div[14]/input",
+      "kind": "Input",
+      "col_name": "Anyja vezetéknév"
+    },
+    {
+      "row_no": 11,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[2]/div[2]/div[16]/input",
+      "kind": "Input",
+      "col_name": "Anyja keresztnév"
+    },
+    {
+      "row_no": 12,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[2]/div[2]/div[18]/select",
+      "kind": "Combobox",
+      "col_name": "Születési helye (Ország)"
+    },
+    {
+      "row_no": 13,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[2]/div[2]/div[20]/input",
+      "kind": "Input",
+      "col_name": "Születési helye (Város)"
+    },
+    {
+      "row_no": 14,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[2]/div[2]/div[22]/input",
+      "kind": "Input",
+      "col_name": "Születési idő"
+    },
+    {
+      "row_no": 15,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[7]/div[2]/div[6]/label/input",
+      "kind": "Radio",
+      "col_name": "útlevéllel?"
+    },
+    {
+      "row_no": 16,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[2]/div[2]/div[24]/select",
+      "kind": "Combobox",
+      "col_name": "Neme (Nő/Férfi)"
+    },
+    {
+      "row_no": 17,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[2]/div[2]/div[26]/select",
+      "kind": "Combobox",
+      "col_name": "Állampolgárság"
+    },
+    {
+      "row_no": 18,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[2]/div[2]/div[30]/select",
+      "kind": "Combobox",
+      "col_name": "Családi állapota (Nőtlen/hajadon; Elvált; Házas; özvegy)"
+    },
+    {
+      "row_no": 19,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[2]/div[2]/div[32]/input",
+      "kind": "Input",
+      "col_name": "Szakképzettsége"
+    },
+    {
+      "row_no": 20,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[2]/div[2]/div[34]/select",
+      "kind": "Combobox",
+      "col_name": "Iskolai végzettség (Alapfokú; Felsőfokú; Középfokú; Nincs)"
+    },
+    {
+      "row_no": 21,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[2]/div[2]/div[36]/input",
+      "kind": "Input",
+      "col_name": "Magyarországra érkezést megelőző foglalkozása"
+    },
+    {
+      "row_no": 22,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[3]/div[2]/div[2]/input",
+      "kind": "Input",
+      "col_name": "Útlevél száma"
+    },
+    {
+      "row_no": 23,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[3]/div[2]/div[4]/select",
+      "kind": "Combobox",
+      "col_name": "Útlevél típusa"
+    },
+    {
+      "row_no": 24,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[3]/div[2]/div[7]/input",
+      "kind": "Input",
+      "col_name": "Útlevél kiállításának helye"
+    },
+    {
+      "row_no": 25,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[3]/div[2]/div[9]/input",
+      "kind": "Input",
+      "col_name": "Útlevél kiállításának dátuma"
+    },
+    {
+      "row_no": 26,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[3]/div[2]/div[11]/input",
+      "kind": "Input",
+      "col_name": "Útlevél érvényes dátum"
+    },
+    {
+      "row_no": 27,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[5]/section/div/div[2]/input",
+      "kind": "Input",
+      "col_name": "Sz.Irányítószám"
+    },
+    {
+      "row_no": 28,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[5]/section/div/div[6]/input",
+      "kind": "Input",
+      "col_name": "Sz.Közterület neve"
+    },
+    {
+      "row_no": 29,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[5]/section/div/div[8]/select",
+      "kind": "Combobox",
+      "col_name": "Sz.Közterület jellege"
+    },
+    {
+      "row_no": 30,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[5]/section/div/div[10]/input",
+      "kind": "Input",
+      "col_name": "Sz.Házszám"
+    },
+    {
+      "row_no": 31,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[5]/section/div/div[14]/input",
+      "kind": "Input",
+      "col_name": "Sz.Épület"
+    },
+    {
+      "row_no": 32,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[5]/section/div/div[18]/select",
+      "kind": "Combobox",
+      "col_name": "Sz.Emelet (01; 02; 03…)"
+    },
+    {
+      "row_no": 33,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[5]/section/div/div[20]/input",
+      "kind": "Input",
+      "col_name": "Sz.Ajtó"
+    },
+    {
+      "row_no": 34,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[5]/section/div/div[20]/select",
+      "kind": "Combobox",
+      "col_name": "Szálláshelyen tartózkodás jogcíme"
+    },
+    {
+      "row_no": 35,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[5]/section/div/div[21]/div/div[2]/input",
+      "kind": "Input",
+      "col_name": "Éspedig"
+    },
+    {
+      "row_no": 36,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[6]/div[2]/div[2]/select",
+      "kind": "Input",
+      "col_name": "Rendelkezik-e egészségbiztosítással?"
+    },
+    {
+      "row_no": 37,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[7]/div[2]/div[2]/select",
+      "kind": "Combobox",
+      "col_name": "Ország"
+    },
+    {
+      "row_no": 38,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[7]/div[2]/div[7]/label[1]/input",
+      "kind": "Radio",
+      "col_name": "Rendelkezik-e a szükséges útlevéllel?"
+    },
+    {
+      "row_no": 39,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[7]/div[2]/div[9]/label[1]/input",
+      "kind": "Radio",
+      "col_name": "Vízummal?"
+    },
+    {
+      "row_no": 40,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[7]/div[2]/div[11]/label[1]/input",
+      "kind": "Radio",
+      "col_name": "Menetjeggyel?"
+    },
+    {
+      "row_no": 41,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[7]/div[2]/div[13]/label[1]/input",
+      "kind": "Radio",
+      "col_name": "Anyagi fedezettel?"
+    },
+    {
+      "row_no": 42,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[9]/div/div/div[2]/div[2]/select",
+      "kind": "Combobox",
+      "col_name": "Ország"
+    },
+    {
+      "row_no": 43,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[9]/div/div/div[2]/div[4]/input",
+      "kind": "Input",
+      "col_name": "Város"
+    },
+    {
+      "row_no": 44,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[9]/div/div/div[2]/div[6]/input",
+      "kind": "Input",
+      "col_name": "Közterület neve"
+    },
+    {
+      "row_no": 45,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[9]/div/div/div[2]/div[8]/input",
+      "kind": "Input",
+      "col_name": "Közterület jellege (út, utca, köz, stb.)"
+    },
+    {
+      "row_no": 46,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[9]/div/div/div[2]/div[10]/input",
+      "kind": "Input",
+      "col_name": "Házszám"
+    },
+    {
+      "row_no": 47,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[9]/div/div/div[2]/div[12]/input",
+      "kind": "Input",
+      "col_name": "Épület"
+    },
+    {
+      "row_no": 48,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[9]/div/div/div[2]/div[16]/select",
+      "kind": "Combobox",
+      "col_name": "Emelet (01; 02; 03…)"
+    },
+    {
+      "row_no": 49,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[9]/div/div/div[2]/div[18]/input",
+      "kind": "Input",
+      "col_name": "Ajtó"
+    },
+    {
+      "row_no": 50,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[10]/div[1]/div/div[2]/label[2]/input",
+      "kind": "Radio",
+      "col_name": "Rendelkezik-e más schengen…"
+    },
+    {
+      "row_no": 51,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[13]/div[2]/div[2]/input",
+      "kind": "Input",
+      "col_name": "Meddig kérelmezi tartózkodása engedélyezését?"
+    },
+    {
+      "row_no": 52,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[11]/div[2]/div[2]/label[2]/input",
+      "kind": "Radio",
+      "col_name": ""
+    },
+    {
+      "row_no": 53,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[11]/div[2]/div[4]/label[2]/input",
+      "kind": "Radio",
+      "col_name": ""
+    },
+    {
+      "row_no": 54,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[11]/div[2]/div[7]/label[2]/input",
+      "kind": "Radio",
+      "col_name": ""
+    },
+    {
+      "row_no": 55,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[11]/div[2]/div[10]/label[2]/input",
+      "kind": "Radio",
+      "col_name": ""
+    },
+    {
+      "row_no": 56,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[11]/div[2]/div[13]/label[2]/input",
+      "kind": "Radio",
+      "col_name": ""
+    },
+    {
+      "row_no": 57,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[14]/div[2]/div[6]/label[2]/input",
+      "kind": "Radio",
+      "col_name": "Igen"
+    },
+    {
+      "row_no": 58,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[14]/div[2]/div[2]/input",
+      "kind": "Input",
+      "col_name": "Ügyintéző email"
+    },
+    {
+      "row_no": 59,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[14]/div[2]/div[4]/input",
+      "kind": "Input",
+      "col_name": "Ügyintéző telefonszám"
+    },
+    {
+      "row_no": 60,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[15]/div[2]/div[2]/div[2]/select",
+      "kind": "Combobox",
+      "col_name": "Ország"
+    },
+    {
+      "row_no": 61,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[15]/div[2]/div[5]/div[2]/select",
+      "kind": "Combobox",
+      "col_name": "Kiutasitas Celorszaga"
+    },
+    {
+      "row_no": 62,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[14]/div[2]/div[7]/div/div[2]/label[2]/input",
+      "kind": "Radio",
+      "col_name": "meghatalmazott kapcsolattartási címe"
+    },
+    {
+      "row_no": 63,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[15]/div[2]/div[1]/div/label/input",
+      "kind": "Radio",
+      "col_name": "valótlan adatok közlése"
+    },
+    {
+      "row_no": 64,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[15]/div[2]/div[2]/div/label/input",
+      "kind": "Radio",
+      "col_name": "vállalom az Európai Unió tagállamai"
+    }
+  ],
+  "VendegmKerelem2": [
+    {
+      "row_no": 2,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[1]/div[2]/div[1]/div[2]/select",
+      "kind": "Combobox",
+      "col_name": "Benyújtó"
+    },
+    {
+      "row_no": 3,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[1]/div[2]/div[2]/div/div[2]/div[2]/div/div[2]/div[2]/input",
+      "kind": "Input",
+      "col_name": "Foglalkoztató irányítószám"
+    },
+    {
+      "row_no": 4,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[1]/div[2]/div[2]/div/div[2]/div[2]/div/div[2]/div[4]/input",
+      "kind": "Input",
+      "col_name": "Munkahely település"
+    },
+    {
+      "row_no": 5,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[1]/div[2]/div[2]/div/div[2]/div[2]/div/div[2]/div[8]/input",
+      "kind": "Input",
+      "col_name": "Foglalkoztató közterület neve"
+    },
+    {
+      "row_no": 6,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[1]/div[2]/div[2]/div/div[2]/div[2]/div/div[2]/div[10]/select",
+      "kind": "Combobox",
+      "col_name": "Foglalkoztató közterület jellege"
+    },
+    {
+      "row_no": 7,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[1]/div[2]/div[2]/div/div[2]/div[2]/div/div[2]/div[12]/input",
+      "kind": "Input",
+      "col_name": "Foglalkoztató házszám"
+    },
+    {
+      "row_no": 8,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[1]/div[2]/div[2]/div/div[2]/div[2]/div/div[2]/div[14]/input",
+      "kind": "Input",
+      "col_name": "Foglalkoztató Épület"
+    },
+    {
+      "row_no": 9,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[1]/div[2]/div[2]/div/div[2]/div[2]/div/div[2]/div[18]/select",
+      "kind": "Combobox",
+      "col_name": "Foglalkoztató Emelet"
+    },
+    {
+      "row_no": 10,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[1]/div[2]/div[2]/div/div[2]/div[2]/div/div[2]/div[20]/input",
+      "kind": "Input",
+      "col_name": "Foglalkoztató Ajtó"
+    },
+    {
+      "row_no": 11,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[1]/div[2]/div[2]/div/div[2]/div[3]/div/div[2]/div[2]/input",
+      "kind": "Input",
+      "col_name": "Foglalkoztató irányítószám"
+    },
+    {
+      "row_no": 12,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[1]/div[2]/div[2]/div/div[2]/div[3]/div/div[2]/div[4]/input",
+      "kind": "Input",
+      "col_name": "Munkahely település"
+    },
+    {
+      "row_no": 13,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[1]/div[2]/div[2]/div/div[2]/div[3]/div/div[2]/div[8]/input",
+      "kind": "Input",
+      "col_name": "Foglalkoztató közterület neve"
+    },
+    {
+      "row_no": 14,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[1]/div[2]/div[2]/div/div[2]/div[3]/div/div[2]/div[10]/select",
+      "kind": "Combobox",
+      "col_name": "Foglalkoztató közterület jellege"
+    },
+    {
+      "row_no": 15,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[1]/div[2]/div[2]/div/div[2]/div[3]/div/div[2]/div[12]/input",
+      "kind": "Input",
+      "col_name": "Foglalkoztató házszám"
+    },
+    {
+      "row_no": 16,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[1]/div[2]/div[2]/div/div[2]/div[3]/div/div[2]/div[14]/input",
+      "kind": "Input",
+      "col_name": "Foglalkoztató Épület"
+    },
+    {
+      "row_no": 17,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[1]/div[2]/div[2]/div/div[2]/div[3]/div/div[2]/div[18]/select",
+      "kind": "Combobox",
+      "col_name": "Foglalkoztató Emelet"
+    },
+    {
+      "row_no": 18,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[1]/div[2]/div[2]/div/div[2]/div[3]/div/div[2]/div[20]/input",
+      "kind": "Input",
+      "col_name": "Foglalkoztató Ajtó"
+    },
+    {
+      "row_no": 19,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[2]/div[2]/div/div[2]/select",
+      "kind": "Combobox",
+      "col_name": "Születési helye (Ország)"
+    },
+    {
+      "row_no": 20,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[2]/div[2]/div/div[4]/input",
+      "kind": "Input",
+      "col_name": "Születési helye (Város)"
+    },
+    {
+      "row_no": 21,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[3]/div[2]/div[1]/div[4]/select",
+      "kind": "Combobox",
+      "col_name": "Pénznem"
+    },
+    {
+      "row_no": 22,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[3]/div[2]/div[1]/div[2]/input",
+      "kind": "Input",
+      "col_name": "Várható jövedelem"
+    },
+    {
+      "row_no": 23,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[4]/div[2]/div[2]/div[2]/div[2]/select",
+      "kind": "Combobox",
+      "col_name": "Minősített kölcsönző"
+    },
+    {
+      "row_no": 24,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[4]/div[2]/div[2]/div[2]/div[5]/div/div[2]/input",
+      "kind": "Input",
+      "col_name": "Nyilvántartásba vétel napja"
+    },
+    {
+      "row_no": 25,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[4]/div[2]/div[2]/div[2]/div[5]/div/div[4]/input",
+      "kind": "Input",
+      "col_name": "Nyilvántartási száma"
+    },
+    {
+      "row_no": 26,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[4]/div[2]/div[2]/div[2]/div[4]/label[1]/input",
+      "kind": "Radio",
+      "col_name": "Btátv"
+    },
+    {
+      "row_no": 27,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[4]/div[2]/div[1]/div[2]/div/section/div[2]/input",
+      "kind": "Input",
+      "col_name": "Rövid cégnév"
+    },
+    {
+      "row_no": 28,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[4]/div[2]/div[1]/div[2]/div/section/div[22]/select",
+      "kind": "Combobox",
+      "col_name": "TEÁOR"
+    },
+    {
+      "row_no": 29,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[4]/div[2]/div[1]/div[2]/div/section/div[24]/input",
+      "kind": "Input",
+      "col_name": "KSH szám"
+    },
+    {
+      "row_no": 30,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[4]/div[2]/div[2]/div[2]/div[4]/label[1]/input",
+      "kind": "Radio",
+      "col_name": ""
+    },
+    {
+      "row_no": 31,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[4]/div[2]/div[1]/div[2]/div/section/div[26]/input",
+      "kind": "Input",
+      "col_name": "Foglalkoztató Adószám"
+    },
+    {
+      "row_no": 32,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[4]/div[2]/div[1]/div[2]/div/section/div[4]/input",
+      "kind": "Input",
+      "col_name": "Foglalkoztató irányítószám"
+    },
+    {
+      "row_no": 33,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[4]/div[2]/div[1]/div[2]/div/section/div[8]/input",
+      "kind": "Input",
+      "col_name": "Foglalkoztató közterület neve"
+    },
+    {
+      "row_no": 34,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[4]/div[2]/div[1]/div[2]/div/section/div[10]/select",
+      "kind": "Combobox",
+      "col_name": "Foglalkoztató közterület jellege2"
+    },
+    {
+      "row_no": 35,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[4]/div[2]/div[1]/div[2]/div/section/div[12]/input",
+      "kind": "Input",
+      "col_name": "Foglalkoztató házszám"
+    },
+    {
+      "row_no": 36,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[4]/div[2]/div[3]/div[2]/div[4]/select",
+      "kind": "Combobox",
+      "col_name": "Iskola típusa"
+    },
+    {
+      "row_no": 37,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[4]/div[2]/div[3]/div[2]/div[2]/input",
+      "kind": "Input",
+      "col_name": "Szakképzettsége"
+    },
+    {
+      "row_no": 38,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[4]/div[2]/div[4]/section/div/div[2]/div[2]/input",
+      "kind": "Input",
+      "col_name": "Munkahely irányítószám"
+    },
+    {
+      "row_no": 39,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[4]/div[2]/div[4]/section/div/div[2]/div[6]/input",
+      "kind": "Input",
+      "col_name": "Munkahely közterület neve"
+    },
+    {
+      "row_no": 40,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[4]/div[2]/div[4]/section/div/div[2]/div[8]/select",
+      "kind": "Combobox",
+      "col_name": "Munkahely közterület jellege"
+    },
+    {
+      "row_no": 41,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[4]/div[2]/div[4]/section/div/div[2]/div[10]/input",
+      "kind": "Input",
+      "col_name": "Munkahely házszám"
+    },
+    {
+      "row_no": 42,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[4]/div[2]/div[4]/section/div/div[2]/div[12]/input",
+      "kind": "Input",
+      "col_name": "Munkahely Épület"
+    },
+    {
+      "row_no": 43,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[4]/div[2]/div[4]/section/div/div[2]/div[16]/select",
+      "kind": "Combobox",
+      "col_name": "Munkahely Emelet"
+    },
+    {
+      "row_no": 44,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[4]/div[2]/div[4]/section/div/div[2]/div[18]/input",
+      "kind": "Input",
+      "col_name": "Munkahely Ajtó"
+    },
+    {
+      "row_no": 45,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[4]/div[2]/div[4]/section/div/div[9]/select",
+      "kind": "Combobox",
+      "col_name": "FEOR"
+    },
+    {
+      "row_no": 46,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[4]/div[2]/div[4]/section/div/div[7]/input",
+      "kind": "Input",
+      "col_name": "Előzetes megállapodás kelte"
+    },
+    {
+      "row_no": 47,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[4]/div[2]/div[5]/div[2]/div[3]/div[2]/select",
+      "kind": "Combobox",
+      "col_name": "Állampolgárság"
+    },
+    {
+      "row_no": 48,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[4]/div[2]/div[5]/div[2]/div[5]/label[2]/input",
+      "kind": "Radio",
+      "col_name": ""
+    },
+    {
+      "row_no": 49,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[4]/div[2]/div[5]/div[2]/div[7]/label[2]/input",
+      "kind": "Radio",
+      "col_name": ""
+    },
+    {
+      "row_no": 50,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[5]/div[2]/div[2]/div[2]/select",
+      "kind": "Combobox",
+      "col_name": "Ország"
+    },
+    {
+      "row_no": 51,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[5]/div[2]/div[5]/div[2]/select",
+      "kind": "Combobox",
+      "col_name": "Kiutasitas Celorszaga"
+    },
+    {
+      "row_no": 52,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[5]/div[2]/div[11]/div[2]/label[1]/input",
+      "kind": "Radio",
+      "col_name": ""
+    },
+    {
+      "row_no": 53,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[5]/div[2]/div[12]/div/div[2]/input",
+      "kind": "Input",
+      "col_name": "2023. évi XC. törvény 242"
+    },
+    {
+      "row_no": 54,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[5]/div[2]/div[13]/div[2]/label[2]/input",
+      "kind": "Radio",
+      "col_name": ""
+    },
+    {
+      "row_no": 55,
+      "xpath": "/html/body/div[2]/div/div/div[2]/form/div[5]/div[2]/div[15]/div[2]/label[2]/input",
+      "kind": "Radio",
+      "col_name": ""
+    }
+  ]
+}

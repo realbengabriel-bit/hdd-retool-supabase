@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+reportlab
+qrcode[pil]
+pymupdf
+openpyxl
+requests
+python-dotenv

@@ -1,0 +1,56 @@
+{
+  "ok": true,
+  "data": {
+    "workflow": {
+      "workflow_case_id": "00000000-0000-0000-0000-000000000003",
+      "full_name": "TESZT VENDEG",
+      "last_name": "TESZT",
+      "first_name": "VENDEG",
+      "nationality": "Fülöp-szigeteki",
+      "birth_date": "1990-01-01",
+      "birth_place": "Manila",
+      "passport_number": "P1234567",
+      "passport_expiry_date": "2030-01-01",
+      "feor": "8425",
+      "validated_partner_name": "HD Direkt Hungary Kft.",
+      "residence_permit_number": "000999999",
+      "residence_permit_valid_until": "2026-12-31"
+    },
+    "package": {
+      "application_type": "vendeg_9_7",
+      "salary": "455976",
+      "currency": "Forint",
+      "effective_feor_code": "8425"
+    },
+    "employer": {
+      "short_name": "HD Direkt Hungary Kft.",
+      "tax_number": "12345678-2-42",
+      "zip": "1087",
+      "city": "Budapest",
+      "street": "Baross",
+      "street_type": "tér",
+      "house_number": "1",
+      "teao": "7820",
+      "ksh_number": "12345678-7820-113-01"
+    },
+    "workplace": {
+      "zip": "1087",
+      "city": "Budapest",
+      "street": "Baross",
+      "street_type": "tér",
+      "house_number": "1"
+    },
+    "accommodation": {
+      "zip": "1087",
+      "city": "Budapest",
+      "street": "Baross",
+      "street_type": "tér",
+      "house_number": "1"
+    },
+    "field_overrides": {
+      "btatv34": "igen",
+      "btatv34nap": "2024-03-11",
+      "btatv34szam": "BP/0702/00010-4/2024"
+    }
+  }
+}

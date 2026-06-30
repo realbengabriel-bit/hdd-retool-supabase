@@ -1,0 +1,5 @@
+﻿timestamp;excel_row;name;app_type;stage;status;detail;url
+2026-06-27 05:08:52;2;TESZT VENDEG;vendeg_9_7;open_new_case;OK;https://enterhungary.gov.hu/eh/cases/edit/19254655/tartcelharm;https://enterhungary.gov.hu/eh/cases/edit/19254655/tartcelharm
+2026-06-27 05:08:52;2;TESZT VENDEG;vendeg_9_7;fill_mapping;START;VendegmKerelem;https://enterhungary.gov.hu/eh/cases/edit/19254655/tartcelharm
+2026-06-27 05:08:54;2;TESZT VENDEG;vendeg_9_7;VendegmKerelem;WARN;15 Radio útlevéllel?: XPath nem található 0.9 mp alatt: /html/body/div[2]/div/div/div[2]/form/div[7]/div[2]/div[6]/label/input;https://enterhungary.gov.hu/eh/cases/edit/19254655/tartcelharm
+2026-06-27 05:09:05;2;TESZT VENDEG;vendeg_9_7;fill_mapping;DONE;VendegmKerelem;https://enterhungary.gov.hu/eh/cases/edit/19254655/tartcelharm

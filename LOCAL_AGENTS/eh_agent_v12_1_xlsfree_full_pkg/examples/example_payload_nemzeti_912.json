@@ -1,0 +1,47 @@
+{
+  "ok": true,
+  "data": {
+    "workflow": {
+      "workflow_case_id": "00000000-0000-0000-0000-000000000001",
+      "full_name": "TESZT NEMZETI",
+      "last_name": "TESZT",
+      "first_name": "NEMZETI",
+      "nationality": "Ukrán",
+      "birth_date": "1990-01-01",
+      "birth_place": "Kijev",
+      "passport_number": "AB1234567",
+      "passport_expiry_date": "2030-01-01",
+      "feor": "9310",
+      "validated_partner_name": "HD Direkt Hungary Kft.",
+      "residence_permit_valid_until": "2027-06-30"
+    },
+    "package": {
+      "application_type": "nemzeti_9_12",
+      "salary": "455976",
+      "currency": "Forint"
+    },
+    "employer": {
+      "short_name": "HD Direkt Hungary Kft.",
+      "tax_number": "12345678-2-42",
+      "zip": "1087",
+      "city": "Budapest",
+      "street": "Baross",
+      "street_type": "tér",
+      "house_number": "1"
+    },
+    "workplace": {
+      "zip": "1087",
+      "city": "Budapest",
+      "street": "Baross",
+      "street_type": "tér",
+      "house_number": "1"
+    },
+    "accommodation": {
+      "zip": "1087",
+      "city": "Budapest",
+      "street": "Baross",
+      "street_type": "tér",
+      "house_number": "1"
+    }
+  }
+}
