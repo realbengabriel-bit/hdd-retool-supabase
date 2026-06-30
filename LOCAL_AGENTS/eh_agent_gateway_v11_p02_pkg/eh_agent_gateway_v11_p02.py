@@ -94,6 +94,48 @@ def safety_flags() -> dict[str, Any]:
     }
 
 
+def demo_safety_flags(execution_scope: str) -> dict[str, Any]:
+    return {
+        **safety_flags(),
+        "final_submit_blocked": True,
+        "execution_scope": execution_scope,
+    }
+
+
+def as_bool(value: Any) -> bool:
+    if isinstance(value, bool):
+        return value
+    if value is None:
+        return False
+    return str(value).strip().lower() in {"1", "true", "yes", "y", "on"}
+
+
+def blocked_confirmation_required_response(execution_scope: str) -> JSONResponse:
+    return JSONResponse(
+        status_code=status.HTTP_400_BAD_REQUEST,
+        content={
+            "ok": False,
+            "status": "blocked_confirmation_required",
+            "reason": "demo_operator_confirmed=true is required for this demo endpoint.",
+            "timestamp": utc_now_iso(),
+            **demo_safety_flags(execution_scope),
+        },
+    )
+
+
+def blocked_submit_not_allowed_response(reason: str, execution_scope: str) -> JSONResponse:
+    return JSONResponse(
+        status_code=status.HTTP_400_BAD_REQUEST,
+        content={
+            "ok": False,
+            "status": "blocked_submit_not_allowed",
+            "reason": reason,
+            "timestamp": utc_now_iso(),
+            **demo_safety_flags(execution_scope),
+        },
+    )
+
+
 def ignored_env_guard_warnings() -> list[str]:
     warnings: list[str] = []
     if settings.env_allow_live_fill:
@@ -145,6 +187,7 @@ class PdfGenerateRequest(BaseModel):
     payload: dict[str, Any] = Field(default_factory=dict)
     requested_by: str | None = None
     dry_run: bool = True
+    demo_operator_confirmed: bool = False
 
 
 def normalized_prepare_request(req: PreparePackageRequest) -> dict[str, Any]:
@@ -176,7 +219,7 @@ def safety_blocked_response(reason: str, extra: dict[str, Any] | None = None) ->
         "reason": reason,
         "warnings": ignored_env_guard_warnings(),
         "timestamp": utc_now_iso(),
-        **safety_flags(),
+        **demo_safety_flags("pre_execution_only"),
     }
     if extra:
         payload.update(extra)
@@ -242,6 +285,170 @@ async def fetch_package_source(normalized: dict[str, Any]) -> dict[str, Any]:
             "error": str(exc),
             **safety_flags(),
         }
+
+
+def prepare_request_from_payload(payload: dict[str, Any]) -> PreparePackageRequest | None:
+    workflow_case_id = payload.get("workflow_case_id") or payload.get("workflowCaseId")
+    candidate_id = payload.get("candidate_id") or payload.get("candidateId")
+    assignment_id = payload.get("assignment_id") or payload.get("assignmentId")
+    rq_code = payload.get("rq_code") or payload.get("rqCode") or payload.get("request_code") or payload.get("workflow_code")
+    requested_by = payload.get("requested_by") or payload.get("requestedBy")
+
+    nested_payload = payload.get("payload")
+    if isinstance(nested_payload, dict):
+        workflow_case_id = workflow_case_id or nested_payload.get("workflow_case_id") or nested_payload.get("workflowCaseId")
+        candidate_id = candidate_id or nested_payload.get("candidate_id") or nested_payload.get("candidateId")
+        assignment_id = assignment_id or nested_payload.get("assignment_id") or nested_payload.get("assignmentId")
+        rq_code = rq_code or nested_payload.get("rq_code") or nested_payload.get("rqCode") or nested_payload.get("request_code") or nested_payload.get("workflow_code")
+
+    if not any([workflow_case_id, candidate_id, assignment_id, rq_code]):
+        return None
+
+    return PreparePackageRequest(
+        workflow_case_id=str(workflow_case_id) if workflow_case_id else None,
+        candidate_id=str(candidate_id) if candidate_id else None,
+        assignment_id=str(assignment_id) if assignment_id else None,
+        rq_code=str(rq_code) if rq_code else None,
+        requested_by=str(requested_by) if requested_by else None,
+        dry_run=True,
+    )
+
+
+def extract_package_payload(payload: dict[str, Any], package_prepare_result: dict[str, Any] | None = None) -> dict[str, Any]:
+    if isinstance(payload.get("package"), dict) and payload["package"]:
+        return payload["package"]
+    if isinstance(payload.get("payload"), dict) and payload["payload"]:
+        return payload["payload"]
+    if package_prepare_result and isinstance(package_prepare_result.get("package_preview"), dict):
+        return package_prepare_result["package_preview"]
+    if package_prepare_result and package_prepare_result.get("package_preview") is not None:
+        return {"package_preview": package_prepare_result.get("package_preview")}
+    return payload
+
+
+async def maybe_prepare_package_from_demo_payload(payload: dict[str, Any]) -> tuple[dict[str, Any] | None, list[str]]:
+    warnings = ignored_env_guard_warnings()
+    prepare_req = prepare_request_from_payload(payload)
+    if prepare_req is None:
+        warnings.append("No workflow/candidate/assignment/rq identifier was supplied; PDF bridge will use the provided payload only.")
+        return None, warnings
+
+    normalized = normalized_prepare_request(prepare_req)
+    package_prepare_result = await fetch_package_source(normalized)
+    return {"request": normalized, **package_prepare_result}, warnings
+
+
+async def handle_demo_pdf_generation(payload: dict[str, Any]) -> Any:
+    execution_scope = "demo_pdf_generation_only"
+    if not as_bool(payload.get("demo_operator_confirmed")):
+        return blocked_confirmation_required_response(execution_scope)
+
+    package_prepare_result, warnings = await maybe_prepare_package_from_demo_payload(payload)
+
+    if not settings.allow_pdf_generator_bridge:
+        response = {
+            "ok": False,
+            "status": "blocked_bridge_disabled",
+            "reason": "ALLOW_PDF_GENERATOR_BRIDGE is false.",
+            "requested_by": (str(payload.get("requested_by") or payload.get("requestedBy") or "").strip() or "eh-agent-gateway-v11-p02"),
+            "package_prepare_result": package_prepare_result,
+            "warnings": warnings,
+            "timestamp": utc_now_iso(),
+            **demo_safety_flags(execution_scope),
+        }
+        response["audit_log_path"] = write_audit_log("demo_pdf_generate_blocked", response)
+        return response
+
+    if not settings.pdf_generator_url:
+        response = {
+            "ok": False,
+            "status": "not_configured",
+            "reason": "OIF_EH_PDF_GENERATOR_URL is not configured.",
+            "package_prepare_result": package_prepare_result,
+            "warnings": warnings,
+            "timestamp": utc_now_iso(),
+            **demo_safety_flags(execution_scope),
+        }
+        response["audit_log_path"] = write_audit_log("demo_pdf_generate_not_configured", response)
+        return response
+
+    forward_payload = {
+        **payload,
+        "payload": extract_package_payload(payload, package_prepare_result),
+        "package_prepare_result": package_prepare_result,
+        "requested_by": (str(payload.get("requested_by") or payload.get("requestedBy") or "").strip() or "eh-agent-gateway-v11-p02"),
+        "dry_run": True,
+        "demo_operator_confirmed": True,
+        "allow_submit": False,
+        "live_fill": False,
+        "execution_allowed_now": False,
+        "final_submit_blocked": True,
+        "live_fill_allowed": False,
+        "submit_allowed": False,
+        "execution_scope": execution_scope,
+        "robot_barat_integration": False,
+    }
+
+    try:
+        async with httpx.AsyncClient(timeout=30.0) as client:
+            legacy_response = await client.post(settings.pdf_generator_url, json=forward_payload)
+        response = {
+            "ok": legacy_response.status_code < 400,
+            "status": "legacy_pdf_generator_bridge_response",
+            "legacy_status_code": legacy_response.status_code,
+            "legacy_response_text": legacy_response.text[:5000],
+            "package_prepare_result": package_prepare_result,
+            "warnings": warnings,
+            "timestamp": utc_now_iso(),
+            **demo_safety_flags(execution_scope),
+        }
+        try:
+            response["legacy_response_json"] = legacy_response.json()
+        except Exception:
+            response["legacy_response_json"] = None
+        response["audit_log_path"] = write_audit_log("demo_pdf_generate_bridge", response)
+        return response
+    except Exception as exc:
+        response = {
+            "ok": False,
+            "status": "legacy_pdf_generator_bridge_error",
+            "error": str(exc),
+            "package_prepare_result": package_prepare_result,
+            "warnings": warnings,
+            "timestamp": utc_now_iso(),
+            **demo_safety_flags(execution_scope),
+        }
+        response["audit_log_path"] = write_audit_log("demo_pdf_generate_bridge_error", response)
+        return response
+
+
+async def handle_demo_eh_fill(payload: dict[str, Any]) -> Any:
+    execution_scope = "demo_eh_draft_fill_only"
+    if not as_bool(payload.get("demo_operator_confirmed")):
+        return blocked_confirmation_required_response(execution_scope)
+    if as_bool(payload.get("allow_submit")):
+        return blocked_submit_not_allowed_response("allow_submit=false is required. Final submit is blocked.", execution_scope)
+
+    package_prepare_result, warnings = await maybe_prepare_package_from_demo_payload(payload)
+    package_payload = extract_package_payload(payload, package_prepare_result)
+    dry_run_result = build_fill_dry_run(package_payload)
+
+    response = {
+        "ok": False,
+        "status": "not_implemented_on_this_host_package",
+        "demo_draft_action_allowed": True,
+        "manual_next_step": "Use the prepared payload and generated PDFs for a manually supervised EH draft demo on the office host; do not submit.",
+        "missing_capability": "safe_browser_draft_fill_adapter_not_present_in_v11_p02_package",
+        "request_must_be_deleted_after_demo": True,
+        "received_live_fill_request": as_bool(payload.get("live_fill")),
+        "package_prepare_result": package_prepare_result,
+        "dry_run_result": dry_run_result,
+        "warnings": warnings,
+        "timestamp": utc_now_iso(),
+        **demo_safety_flags(execution_scope),
+    }
+    response["audit_log_path"] = write_audit_log("demo_eh_fill_not_implemented", response)
+    return response
 
 
 def collect_field_paths(value: Any, prefix: str = "package", limit: int = 200) -> list[str]:
@@ -399,67 +606,42 @@ async def run_full_dry(req: PreparePackageRequest) -> dict[str, Any]:
     return response
 
 
-@app.post("/agent/pdf/generate", dependencies=[Depends(require_bearer_token)])
-async def pdf_generate(req: PdfGenerateRequest) -> dict[str, Any]:
-    if req.dry_run is not True:
-        return safety_blocked_response("dry_run=false is not allowed. PDF bridge is dry-run/package-generation compatibility only.")
+@app.post("/generate-oif-package-pdfs", dependencies=[Depends(require_bearer_token)], response_model=None)
+async def generate_oif_package_pdfs(payload: dict[str, Any]) -> Any:
+    return await handle_demo_pdf_generation(payload)
 
-    if not settings.allow_pdf_generator_bridge:
-        response = {
-            "ok": False,
-            "status": "blocked_bridge_disabled",
-            "reason": "ALLOW_PDF_GENERATOR_BRIDGE is false.",
-            "requested_by": (req.requested_by or "").strip() or "eh-agent-gateway-v11-p02",
-            "warnings": ignored_env_guard_warnings(),
-            "timestamp": utc_now_iso(),
-            **safety_flags(),
-        }
-        response["audit_log_path"] = write_audit_log("pdf_generate_blocked", response)
-        return response
 
-    if not settings.pdf_generator_url:
-        return {
-            "ok": False,
-            "status": "not_configured",
-            "reason": "OIF_EH_PDF_GENERATOR_URL is not configured.",
-            "timestamp": utc_now_iso(),
-            **safety_flags(),
-        }
+@app.post("/api/generate-oif-package-pdfs", dependencies=[Depends(require_bearer_token)], response_model=None)
+async def api_generate_oif_package_pdfs(payload: dict[str, Any]) -> Any:
+    return await handle_demo_pdf_generation(payload)
 
-    forward_payload = {
+
+@app.post("/oif-eh/generate-oif-package-pdfs", dependencies=[Depends(require_bearer_token)], response_model=None)
+async def oif_eh_generate_oif_package_pdfs(payload: dict[str, Any]) -> Any:
+    return await handle_demo_pdf_generation(payload)
+
+
+@app.post("/agent/eh/fill", dependencies=[Depends(require_bearer_token)], response_model=None)
+async def agent_eh_fill(payload: dict[str, Any]) -> Any:
+    return await handle_demo_eh_fill(payload)
+
+
+@app.post("/agent/pdf/generate", dependencies=[Depends(require_bearer_token)], response_model=None)
+async def pdf_generate(req: PdfGenerateRequest) -> Any:
+    payload = {
         "payload": req.payload,
-        "requested_by": (req.requested_by or "").strip() or "eh-agent-gateway-v11-p02",
-        "dry_run": True,
-        "execution_allowed_now": False,
+        "requested_by": req.requested_by,
+        "dry_run": req.dry_run,
+        "demo_operator_confirmed": req.demo_operator_confirmed,
     }
-
-    try:
-        async with httpx.AsyncClient(timeout=30.0) as client:
-            legacy_response = await client.post(settings.pdf_generator_url, json=forward_payload)
-        response = {
-            "ok": legacy_response.status_code < 400,
-            "status": "legacy_pdf_generator_bridge_response",
-            "legacy_status_code": legacy_response.status_code,
-            "legacy_response_text": legacy_response.text[:5000],
-            "warnings": ignored_env_guard_warnings(),
-            "timestamp": utc_now_iso(),
-            **safety_flags(),
-        }
-        response["audit_log_path"] = write_audit_log("pdf_generate_bridge", response)
-        return response
-    except Exception as exc:
-        return {
-            "ok": False,
-            "status": "legacy_pdf_generator_bridge_error",
-            "error": str(exc),
-            "warnings": ignored_env_guard_warnings(),
-            "timestamp": utc_now_iso(),
-            **safety_flags(),
-        }
+    return await handle_demo_pdf_generation(payload)
 
 
-@app.post("/run-eh-package", dependencies=[Depends(require_bearer_token)])
-async def run_eh_package(payload: dict[str, Any]) -> dict[str, Any]:
+@app.post("/run-eh-package", dependencies=[Depends(require_bearer_token)], response_model=None)
+async def run_eh_package(payload: dict[str, Any]) -> Any:
+    if str(payload.get("agent_mode") or payload.get("mode") or "").strip().lower() == "generate_pdfs":
+        return await handle_demo_pdf_generation(payload)
+
     requested_live = any(
         payload.get(key) is True
         for key in ["execute", "run", "live", "live_fill", "submit", "allow_submit"]
@@ -474,8 +656,9 @@ async def run_eh_package(payload: dict[str, Any]) -> dict[str, Any]:
         "compatibility_mode": True,
         "reason": "Legacy live execution flags are blocked and routed to dry-run only." if requested_live else None,
         "dry_run_result": dry_run_result,
+        "request_must_be_deleted_after_demo": True,
         "timestamp": utc_now_iso(),
-        **safety_flags(),
+        **demo_safety_flags("legacy_run_compatibility_dry_run_only"),
     }
     response["audit_log_path"] = write_audit_log("run_eh_package_compat", response)
     return response
